@@ -1661,10 +1661,18 @@ export function runSimulation(canvas) {
     }
 
     // Mouse Movements
-    canvas.addEventListener("mousemove", (e) => {
+    window.addEventListener("mousemove", (e) => {
       let pointer = pointers[0];
-      let posX = scaleByPixelRatio(e.offsetX);
-      let posY = scaleByPixelRatio(e.offsetY);
+      let posX = scaleByPixelRatio(e.clientX);
+      let posY = scaleByPixelRatio(e.clientY);
+
+      // Only update if the pointer is down or purely moving (depending on logic)
+      // The original logic updated on move regardless of down state for 'hover' effect?
+      // Re-reading logic:
+      // if (!pointer.down) { updatePointerDownData(...) }
+      // updatePointerMoveData(...)
+
+      // We must preserve exact logic, just changing source of event and coords.
 
       if (!pointer.down) {
         // Pointer is not down, so this is the start of a new move.
