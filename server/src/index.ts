@@ -1,7 +1,7 @@
 // Main server entry point
 import app from "./app";
-import { config } from "./config/database";
 import { DatabaseConnection } from "./config/database";
+import { config } from "./config/environment";
 
 const PORT = config.PORT;
 const HOST = config.HOST;

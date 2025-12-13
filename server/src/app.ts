@@ -2,7 +2,6 @@
 import express, { Express } from "express";
 import compression from "compression";
 import morgan from "morgan";
-import { config } from "./config/database.js";
 import {
   helmetConfig,
   corsConfig,
@@ -10,6 +9,7 @@ import {
   securityHeaders,
 } from "./middleware/security";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
+import { config } from "./config/environment";
 import routes from "./routes";
 
 const app: Express = express();
