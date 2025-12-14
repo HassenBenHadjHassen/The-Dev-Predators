@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
+import SelectCompanionPage from "./pages/SelectCompanionPage";
+import CheckInPage from "./pages/CheckInPage";
 import "./App.css";
 
 function App() {
@@ -24,6 +26,8 @@ function App() {
           </div>
         }
       />
+      <Route path="/select-companion" element={<SelectCompanionPage />} />
+      <Route path="/check-in" element={<CheckInPage />} />
     </Routes>
   );
 }
