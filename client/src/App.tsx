@@ -13,6 +13,7 @@ import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import SelectCompanionPage from "./pages/SelectCompanionPage";
 import CheckInPage from "./pages/CheckInPage";
+import DashboardPage from "./pages/DashboardPage";
 import "./App.css";
 
 const queryClient = new QueryClient();
