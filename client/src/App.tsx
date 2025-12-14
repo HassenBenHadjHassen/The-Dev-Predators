@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import SignUp from "./components/SignUp/SignUp";
 import SelectCompanionPage from "./pages/SelectCompanionPage";
 import CheckInPage from "./pages/CheckInPage";
+import DashboardPage from "./pages/DashboardPage";
 import "./App.css";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
       />
       <Route path="/select-companion" element={<SelectCompanionPage />} />
       <Route path="/check-in" element={<CheckInPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
     </Routes>
   );
 }
