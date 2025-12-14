@@ -48,7 +48,33 @@ export const helmetConfig = helmet({
 });
 
 // CORS configuration
-export const corsConfig = cors();
+export const corsConfig = cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Parse CORS_ORIGIN - can be a single origin or comma-separated list
+    const allowedOrigins = config.CORS_ORIGIN.split(",").map((o: string) =>
+      o.trim()
+    );
+
+    // Check if the origin is in the allowed list
+    if (allowedOrigins.includes(origin) || allowedOrigins.includes("*")) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Content-Type", "Authorization"],
+  maxAge: 86400, // 24 hours
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+});
 
 // Request sanitization middleware
 export const sanitizeRequest = (
