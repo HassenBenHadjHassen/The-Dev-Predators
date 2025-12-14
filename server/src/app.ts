@@ -10,6 +10,7 @@ import {
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { config } from "./config/environment";
 import routes from "./routes";
+import cors from "cors";
 
 const app: Express = express();
 
@@ -18,7 +19,16 @@ app.set("trust proxy", 1);
 
 // Security middleware
 app.use(helmetConfig);
-// CORS disabled
+const allowedOrigin = "https://the-dev-predators.hassenbenhadjhassen.com";
+
+app.use(
+  cors({
+    origin: allowedOrigin,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(securityHeaders);
 app.use(sanitizeRequest);
 
