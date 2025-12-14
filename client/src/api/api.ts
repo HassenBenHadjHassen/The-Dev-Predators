@@ -8,7 +8,8 @@ interface AuthError extends Error {
 }
 
 export default class Api {
-  static API_BASE_URL = "http://localhost:3000";
+  static API_BASE_URL =
+    "https://the-dev-predators-server.hassenbenhadjhassen.com";
   static get api_url() {
     return this.API_BASE_URL + "/api";
   }
@@ -63,7 +64,9 @@ export default class Api {
         localStorage.removeItem("user");
         window.location.href = "/login";
 
-        const error = new Error("Session expired. Please login again.") as AuthError;
+        const error = new Error(
+          "Session expired. Please login again."
+        ) as AuthError;
         error.isAuthError = true;
         throw error;
       }
@@ -92,7 +95,12 @@ export default class Api {
         lastError = error;
 
         // Don't retry on authentication errors - these are permanent
-        if (error && typeof error === "object" && "isAuthError" in error && (error as AuthError).isAuthError) {
+        if (
+          error &&
+          typeof error === "object" &&
+          "isAuthError" in error &&
+          (error as AuthError).isAuthError
+        ) {
           throw error;
         }
 
@@ -103,7 +111,8 @@ export default class Api {
 
         // Calculate delay with exponential backoff
         const delayMs = initialDelay * Math.pow(2, attempt);
-        const errorMessage = error instanceof Error ? error.message : String(error);
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
         console.warn(
           `[UserApi] Request failed (attempt ${
             attempt + 1
