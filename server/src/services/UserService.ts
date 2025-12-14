@@ -99,7 +99,6 @@ export class UserService extends BaseService<User> {
       return {
         success: false,
         error: result.error,
-        statusCode: result.statusCode,
         validationErrors: result.validationErrors,
       };
     }
