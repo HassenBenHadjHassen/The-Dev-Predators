@@ -18,40 +18,7 @@ const app: Express = express();
 app.set("trust proxy", 1);
 
 // CORS configuration - must be before other middleware to handle preflight requests
-const allowedOrigins = [
-  "https://the-dev-predators.hassenbenhadjhassen.com",
-  config.CORS_ORIGIN,
-].filter(Boolean);
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // For requests with credentials, we must return a specific origin, not true
-      // Allow requests with no origin only in development
-      if (!origin) {
-        if (config.NODE_ENV === "development") {
-          return callback(null, true);
-        }
-        // In production, reject requests without origin when credentials are required
-        return callback(new Error("CORS: Origin header required"));
-      }
-
-      // Check if the origin is in the allowed list
-      if (allowedOrigins.includes(origin)) {
-        // Return the specific origin (not true) to avoid wildcard
-        callback(null, origin);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    exposedHeaders: ["Content-Type", "Authorization"],
-    optionsSuccessStatus: 200, // Some legacy browsers choke on 204
-  })
-);
-
+app.use(cors());
 // Security middleware (after CORS to avoid header conflicts)
 app.use(helmetConfig);
 app.use(securityHeaders);
