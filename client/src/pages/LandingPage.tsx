@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Sparkles, Heart, Brain, Shield } from "lucide-react";
 
-export default function LandingSection() {
+export default function LandingPage() {
     const navigate = useNavigate();
 
     return (
