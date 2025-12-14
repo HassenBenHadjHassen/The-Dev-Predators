@@ -23,7 +23,7 @@ export const createRateLimit = (windowMs: number, max: number) => {
     standardHeaders: true,
     legacyHeaders: false,
   });
-  
+};
 
 // General rate limiter
 export const generalRateLimit = createRateLimit(
