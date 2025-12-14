@@ -13,11 +13,6 @@ import routes from "./routes";
 
 const app: Express = express();
 
-// Trust proxy (for rate limiting behind reverse proxy)
-app.set("trust proxy", 1);
-
-// CORS configuration - must be before other middleware to handle preflight requests
-app.use(corsConfig);
 // Security middleware (after CORS to avoid header conflicts)
 app.use(helmetConfig);
 app.use(sanitizeRequest);
