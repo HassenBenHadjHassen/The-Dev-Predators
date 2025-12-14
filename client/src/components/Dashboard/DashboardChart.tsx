@@ -42,8 +42,6 @@ export default function DashboardChart({ stressLevel, timelineEvents = [] }: Das
   // Sort events descending by date
   const sortedEvents = [...timelineEvents].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-  let trackingStress = currentStress;
-
   // We only carry stress backwards.
   // Previous Stress = Current Stress - (Change)
   // E.g. If current is 50, and last event was +5 (Game Loss), then before that event it was 45.
@@ -53,8 +51,6 @@ export default function DashboardChart({ stressLevel, timelineEvents = [] }: Das
 
   // Map events to days
   // We need to find the stress value at the *end* of each day.
-
-  let eventIndex = 0;
 
   // Loop backwards through our chart days (from yesterday back to 7 days ago)
   for (let i = daysToShow - 2; i >= 0; i--) {
