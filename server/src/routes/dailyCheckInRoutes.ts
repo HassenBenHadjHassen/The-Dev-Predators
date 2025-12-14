@@ -6,6 +6,6 @@ import { requireAuth as authMiddleware } from "../middleware/auth";
 const router = Router();
 const dailyCheckInController = new DailyCheckInController();
 
-router.post("/", authMiddleware, dailyCheckInController.create);
+router.post("/create", authMiddleware, dailyCheckInController.create);
 
 export default router;

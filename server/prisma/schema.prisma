@@ -45,8 +45,8 @@ model DailyCheckIn {
 
   emotionalState String
   intensityLevel Int
-  topics String[]
-  needs String[]
+  situation String[]
+  goal String[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

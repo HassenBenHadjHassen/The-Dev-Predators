@@ -33,14 +33,14 @@ export default function CheckInPage() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     age: "",
-    emotion: "",
-    intensity: 3,
+    emotionalState: "",
+    intensityLevel: 3,
     situation: "",
     goal: "",
   });
 
   const handleIntensityChange = (level: number) => {
-    setFormData({ ...formData, intensity: level });
+    setFormData({ ...formData, intensityLevel: level });
   };
 
   const handleSubmit = () => {
@@ -49,7 +49,7 @@ export default function CheckInPage() {
   };
 
   const isFormValid =
-    formData.age && formData.emotion && formData.situation && formData.goal;
+    formData.age && formData.emotionalState && formData.situation && formData.goal;
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6 relative overflow-hidden">
@@ -91,9 +91,9 @@ export default function CheckInPage() {
               <input
                 type="text"
                 placeholder="e.g., Anxious, Overwhelmed, Excited..."
-                value={formData.emotion}
+                value={formData.emotionalState}
                 onChange={(e) =>
-                  setFormData({ ...formData, emotion: e.target.value })
+                  setFormData({ ...formData, emotionalState: e.target.value })
                 }
                 className="w-full bg-background/50 border border-border focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-2xl px-4 py-3 outline-none transition-all placeholder:text-muted-foreground/50"
               />
@@ -107,7 +107,7 @@ export default function CheckInPage() {
                 Intensity Level
               </label>
               <span className="text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
-                {formData.intensity}/5
+                {formData.intensityLevel}/5
               </span>
             </div>
             <div className="flex justify-between gap-4">
@@ -117,7 +117,7 @@ export default function CheckInPage() {
                   onClick={() => handleIntensityChange(level)}
                   className={`
                     flex-1 aspect-square rounded-2xl flex items-center justify-center text-lg font-medium transition-all duration-300
-                    ${formData.intensity === level
+                    ${formData.intensityLevel === level
                       ? "bg-primary text-primary-foreground shadow-lg scale-110"
                       : "bg-background/50 hover:bg-primary/20 hover:scale-105 border border-border"
                     }

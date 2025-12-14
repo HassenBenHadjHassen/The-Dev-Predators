@@ -1,14 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { BaseController } from "./BaseController";
 import { DailyCheckInService } from "../services/DailyCheckInService";
+import { UserService } from "../services/UserService";
 import { AuthRequest } from "../middleware/auth";
 
 export class DailyCheckInController extends BaseController {
     private dailyCheckInService: DailyCheckInService;
+    private userService: UserService;
 
     constructor() {
         super();
         this.dailyCheckInService = new DailyCheckInService();
+        this.userService = new UserService();
     }
 
     public create = async (
@@ -23,8 +26,18 @@ export class DailyCheckInController extends BaseController {
                 return;
             }
 
+            const { age, intensity, intensityLevel, situation, goal, ...otherData } = req.body;
+
+            // Update user age if provided
+            if (age) {
+                await this.userService.update(authReq.user.userId, { age: parseInt(age) });
+            }
+
             const checkInData = {
-                ...req.body,
+                ...otherData,
+                intensityLevel: intensityLevel || intensity,
+                situation: situation ? [situation] : [],
+                goal: goal ? [goal] : [],
                 userId: authReq.user.userId,
             };
 
