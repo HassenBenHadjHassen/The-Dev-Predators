@@ -11,10 +11,10 @@ export const createRateLimit = (windowMs: number, max: number) => {
   if (config.NODE_ENV !== "production") {
     return (req: Request, res: Response, next: NextFunction) => next();
   }
-
   return rateLimit({
     windowMs,
     max,
+    skip: (req) => req.method === "OPTIONS",
     message: {
       success: false,
       error: "Too many requests from this IP, please try again later.",
@@ -23,7 +23,7 @@ export const createRateLimit = (windowMs: number, max: number) => {
     standardHeaders: true,
     legacyHeaders: false,
   });
-};
+  
 
 // General rate limiter
 export const generalRateLimit = createRateLimit(

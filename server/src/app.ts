@@ -20,6 +20,8 @@ app.set("trust proxy", 1);
 // Security middleware
 app.use(helmetConfig);
 app.use(corsConfig);
+// VERY IMPORTANT
+app.options("*", corsConfig);
 app.use(securityHeaders);
 app.use(sanitizeRequest);
 
