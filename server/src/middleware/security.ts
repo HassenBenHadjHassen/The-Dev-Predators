@@ -49,7 +49,13 @@ export const helmetConfig = helmet({
 
 // CORS configuration
 export const corsConfig = cors({
-  origin: "https://the-dev-predators.hassenbenhadjhassen.com",
+  origin:
+    config.CORS_ORIGIN || "https://the-dev-predators.hassenbenhadjhassen.com",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
 });
 
 // Request sanitization middleware
@@ -58,6 +64,11 @@ export const sanitizeRequest = (
   res: Response,
   next: NextFunction
 ): void => {
+  // Skip sanitization for OPTIONS requests (CORS preflight)
+  if (req.method === "OPTIONS") {
+    return next();
+  }
+
   // Remove potentially dangerous characters from request body
   if (req.body && typeof req.body === "object") {
     sanitizeObject(req.body);
