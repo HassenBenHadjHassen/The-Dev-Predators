@@ -51,7 +51,6 @@ export const helmetConfig = helmet({
 export const corsConfig = cors({
   origin:
     config.CORS_ORIGIN || "https://the-dev-predators.hassenbenhadjhassen.com",
-  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   exposedHeaders: ["Content-Type", "Authorization"],
