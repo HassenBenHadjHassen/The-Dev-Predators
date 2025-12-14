@@ -6,22 +6,7 @@ import DashboardTimeline from "../components/Dashboard/DashboardTimeline";
 import { Sparkles, Gamepad2 } from "lucide-react";
 import { UserApi } from "@/api/userApi";
 import { useCompanion } from "@/context/CompanionContext";
-
-import img1 from "../assets/cute-animal-icon-collection-free-vector__1_-removebg-preview.png";
-import img2 from "../assets/cute-animal-icon-collection-free-vector__2_-removebg-preview.png";
-import img3 from "../assets/cute-animal-icon-collection-free-vector__3_-removebg-preview.png";
-import img4 from "../assets/cute-animal-icon-collection-free-vector__4_-removebg-preview.png";
-import img5 from "../assets/cute-animal-icon-collection-free-vector__5_-removebg-preview.png";
-import img6 from "../assets/cute-animal-icon-collection-free-vector-removebg-preview.png";
-
-const companions = [
-  { id: 1, src: img1, alt: "Bunny" },
-  { id: 2, src: img2, alt: "Bear" },
-  { id: 3, src: img3, alt: "Cat" },
-  { id: 4, src: img4, alt: "Dog" },
-  { id: 5, src: img5, alt: "Panda" },
-  { id: 6, src: img6, alt: "Fox" },
-];
+import { COMPANIONS } from "../constants/companions";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -46,7 +31,7 @@ export default function DashboardPage() {
     fetchUser();
   }, []);
 
-  const companion = companions.find((c) => c.id === user?.selectedCompanionId);
+  const companion = COMPANIONS.find((c) => c.id === user?.selectedCompanionId);
   const avatarSrc = companion
     ? companion.src
     : "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
@@ -62,17 +47,8 @@ export default function DashboardPage() {
               <Sparkles className="w-5 h-5 text-primary" />
             </div>
             <span className="font-serif text-xl font-bold tracking-tight">
-              MindSpace
+              The Bright Side
             </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-secondary overflow-hidden border border-border p-1">
-              <img
-                src={avatarSrc}
-                alt="Avatar"
-                className="w-full h-full object-contain"
-              />
-            </div>
           </div>
         </div>
       </header>
