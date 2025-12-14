@@ -115,6 +115,22 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Background Images */
+  --background-image-gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  --background-image-pattern-dots: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  --background-image-shimmer: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+
+  /* Box Shadows */
+  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --shadow-glass-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
+  --shadow-glass-lg: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --shadow-inner-sm: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-inner-md: inset 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-elevation-2: 0 3px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+  --shadow-elevation-3: 0 10px 20px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1);
+  --shadow-tube: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 button {
@@ -125,6 +141,7 @@ button {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -132,24 +149,29 @@ button {
 
 /* Added organic blob animations for delightful visual interest */
 @keyframes float {
+
   0%,
   100% {
     transform: translate(0, 0) rotate(0deg);
   }
+
   33% {
     transform: translate(30px, -30px) rotate(5deg);
   }
+
   66% {
     transform: translate(-20px, 20px) rotate(-5deg);
   }
 }
 
 @keyframes pulse-glow {
+
   0%,
   100% {
     opacity: 0.5;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.05);
@@ -163,6 +185,7 @@ button {
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
 button:focus,
 button:focus-visible {
   outline: 2px solid var(--color-secondary);
@@ -171,7 +194,7 @@ button:focus-visible {
 
 @layer components {
   .glass-panel {
-    @apply bg-gradient-glass backdrop-blur-md bg-opacity-30 border border-white/10 shadow-glass rounded-xl;
+    @apply bg-gradient-glass backdrop-blur-md border border-white/10 shadow-glass rounded-xl;
   }
 
   .tube {
@@ -179,7 +202,7 @@ button:focus-visible {
   }
 
   .tube-selected {
-    @apply ring-4 ring-primary ring-opacity-70;
+    @apply ring-4 ring-primary;
   }
 
   .liquid-segment {

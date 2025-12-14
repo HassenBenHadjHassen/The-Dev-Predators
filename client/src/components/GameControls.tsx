@@ -45,7 +45,7 @@ const GameControls = ({ onNextLevel }: GameControlsProps) => {
 
       {gameState.isComplete && onNextLevel && (
         <Button
-          variant="default"
+          variant="outline"
           size="icon"
           className="h-12 w-12 rounded-full"
           onClick={onNextLevel}

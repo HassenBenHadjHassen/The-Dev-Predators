@@ -1,6 +1,6 @@
 
 import { memo } from "react";
-import { LiquidColor } from "@/types/game";
+import type { LiquidColor } from "@/types/game";
 
 interface LiquidSegmentProps {
   color: LiquidColor;

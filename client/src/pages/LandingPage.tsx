@@ -17,15 +17,15 @@ export default function LandingSection() {
             </span>
           </div>
 
-          <h1 className="font-serif text-6xl md:text-8xl font-bold text-balance leading-tight">
-            Find Your
-            <span className="block text-primary mt-2">Inner Peace</span>
-          </h1>
+                    <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
+                        A thoughtfully crafted space where mental wellness meets delightful
+                        design. Start your journey to a calmer, more centered you.
+                    </p>
 
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
-            A thoughtfully crafted space where mental wellness meets delightful
-            design. Start your journey to a calmer, more centered you.
-          </p>
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+                        <Button
+                            size="lg"
+                            className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
             <Button
@@ -39,45 +39,45 @@ export default function LandingSection() {
           </div>
         </div>
 
-        {/* Feature Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mt-20">
-          {[
-            {
-              icon: Brain,
-              title: "Mindful Practices",
-              description:
-                "Science-backed techniques to calm your mind and reduce stress",
-            },
-            {
-              icon: Heart,
-              title: "Self-Care Tools",
-              description:
-                "Personalized activities designed to nurture your emotional wellbeing",
-            },
-            {
-              icon: Shield,
-              title: "Safe Space",
-              description:
-                "A private sanctuary where you can be yourself without judgment",
-            },
-          ].map((feature, index) => (
-            <div
-              key={index}
-              className="group relative bg-card/50 backdrop-blur-sm rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all hover:shadow-lg hover:-translate-y-1"
-            >
-              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors group-hover:scale-110">
-                <feature.icon className="w-7 h-7 text-primary" />
-              </div>
-              <h3 className="font-serif text-2xl font-semibold mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {feature.description}
-              </p>
+                {/* Feature Cards */}
+                <div className="grid md:grid-cols-3 gap-6 mt-20">
+                    {[
+                        {
+                            icon: Brain,
+                            title: "Mindful Practices",
+                            description:
+                                "Science-backed techniques to calm your mind and reduce stress",
+                        },
+                        {
+                            icon: Heart,
+                            title: "Self-Care Tools",
+                            description:
+                                "Personalized activities designed to nurture your emotional wellbeing",
+                        },
+                        {
+                            icon: Shield,
+                            title: "Safe Space",
+                            description:
+                                "A private sanctuary where you can be yourself without judgment",
+                        },
+                    ].map((feature, index) => (
+                        <div
+                            key={index}
+                            className="group relative bg-card/50 backdrop-blur-sm rounded-3xl p-8 border border-border/50 hover:border-primary/30 transition-all hover:shadow-lg hover:-translate-y-1"
+                        >
+                            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors group-hover:scale-110">
+                                <feature.icon className="w-7 h-7 text-primary" />
+                            </div>
+                            <h3 className="font-serif text-2xl font-semibold mb-3">
+                                {feature.title}
+                            </h3>
+                            <p className="text-muted-foreground leading-relaxed">
+                                {feature.description}
+                            </p>
+                        </div>
+                    ))}
+                </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
+        </section>
+    );
 }
