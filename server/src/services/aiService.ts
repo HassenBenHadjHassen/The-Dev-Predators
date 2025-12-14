@@ -3,23 +3,36 @@ import { config } from "../config/environment";
 
 const HUGGINGFACE_API_URL = "https://router.huggingface.co/v1/chat/completions";
 
-export const reframeThought = async (thought: string): Promise<string> => {
+interface ReframedResponse {
+  reframedThought: string;
+  reasoning: string;
+}
+
+export const reframeThought = async (
+  thought: string
+): Promise<ReframedResponse> => {
   try {
     const systemPrompt = `
-You are a supportive AI that helps users reframe negative or stressful thoughts into healthier, more constructive perspectives.
+You are a supportive AI that rewrites negative or stressful thoughts into healthier, more constructive internal thoughts.
 
-Guidelines:
-- Respond in a calm, empathetic, non-judgmental tone.
-- Keep the response concise (1–3 short sentences, maximum 50 words).
-- Always reframe the user’s thought into a more hopeful, constructive perspective.
-- Avoid forced positivity, clichés, or moral judgment.
-- Offer exactly ONE reframe. Do not list multiple options.
-- Do not use emojis, bullet points, or special formatting.
+Rules:
+- Rewrite the thought as a natural inner thought someone might tell themselves.
+- Always use first-person ("I").
+- The reframed thought must sound emotional and personal, not neutral or academic.
+- Keep the reframed thought under 25 words.
+- Provide a short reason written as inner self-talk, not an explanation.
+- The reasoning should sound like a quiet thought in someone’s head.
+- Do NOT use abstract, analytical, or editorial language.
+- Avoid words like: aspect, identity, perspective, acknowledge, allow, focus, process, change.
+- Keep the reasoning under 25 words.
+- Output ONLY a strict JSON object with no extra text.
+- The JSON object must contain exactly these keys: "reframedThought", "reasoning".
 
-Safety:
-- If the user mentions self-harm, suicide, or a desire to die:
-  - First, gently reframe the thought toward the value of life, the possibility of change, or the fact that feelings can shift over time.
-  - Keep the tone calm, supportive, and brief.
+Example Output:
+{
+  "reframedThought": "I feel frustrated right now, but that doesn’t mean everything is broken.",
+  "reasoning": "I’m upset because I care, not because there’s no hope."
+}
 `;
 
     const userPrompt = `"${thought}"`;
@@ -35,6 +48,7 @@ Safety:
         max_tokens: 500,
         temperature: 0.7,
         stream: false,
+        response_format: { type: "json_object" },
       },
       {
         headers: {
@@ -50,7 +64,15 @@ Safety:
       response.data.choices.length > 0 &&
       response.data.choices[0].message
     ) {
-      return response.data.choices[0].message.content.trim();
+      const content = response.data.choices[0].message.content.trim();
+      try {
+        // Remove any markdown code blocks if the model adds them despite instructions
+        const cleanContent = content.replace(/^```json\s*|\s*```$/g, "");
+        return JSON.parse(cleanContent) as ReframedResponse;
+      } catch (parseError) {
+        console.error("Failed to parse JSON response:", content);
+        throw new Error("AI response was not valid JSON");
+      }
     } else {
       throw new Error("Unexpected response format from Hugging Face API");
     }

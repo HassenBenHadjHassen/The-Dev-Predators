@@ -24,13 +24,14 @@ export const reframe = async (
     }
 
     const { thought } = value;
-    const reframedThought = await reframeThought(thought);
+    const result = await reframeThought(thought);
 
     res.status(200).json({
       success: true,
       data: {
         originalThought: thought,
-        reframedThought: reframedThought,
+        reframedThought: result.reframedThought,
+        reasoning: result.reasoning,
       },
     });
   } catch (error) {

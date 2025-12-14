@@ -10,6 +10,10 @@ router.get("/health", healthCheck);
 // AI Routes
 router.use("/ai", aiRoutes);
 
+// Auth Routes
+import authRoutes from "./authRoutes";
+router.use("/auth", authRoutes);
+
 // API info endpoint
 router.get("/", (req, res) => {
   res.json({

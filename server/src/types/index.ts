@@ -41,3 +41,20 @@ export interface ServiceResponse<T = any> {
   error?: string;
   validationErrors?: ValidationError[];
 }
+
+export interface User extends BaseEntity {
+  email: string;
+  fullName: string;
+  password: string;
+  thoughts: Thought[];
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface Thought {
+  id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
