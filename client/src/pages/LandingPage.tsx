@@ -1,4 +1,5 @@
 import FluidBackground from '../components/FluidBackground/FluidBackground';
+import Login from "../components/Login/Login";
 
 const LandingPage = () => {
     return (
@@ -21,6 +22,7 @@ const LandingPage = () => {
                     Get Started
                 </button>
             </div>
+            
         </div>
     );
 };
