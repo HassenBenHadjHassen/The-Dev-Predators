@@ -48,7 +48,9 @@ export const helmetConfig = helmet({
 });
 
 // CORS configuration
-export const corsConfig = cors();
+export const corsConfig = cors({
+  origin: "https://the-dev-predators.hassenbenhadjhassen.com",
+});
 
 // Request sanitization middleware
 export const sanitizeRequest = (
