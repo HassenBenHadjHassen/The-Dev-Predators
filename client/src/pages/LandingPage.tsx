@@ -1,7 +1,11 @@
 import FluidBackground from '../components/FluidBackground/FluidBackground';
-import Login from "../components/Login/Login";
+import { useState } from 'react';
+// ... existing code ...
 
 const LandingPage = () => {
+    const [isHover, setIsHover] = useState(false);
+    const [isActive, setIsActive] = useState(false);
+
     return (
         <div style={{ position: 'relative', width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: 'white', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>
             <FluidBackground />
@@ -22,9 +26,10 @@ const LandingPage = () => {
                     Get Started
                 </button>
             </div>
-            
         </div>
     );
 };
+// ... existing code ...
 
 export default LandingPage;
+// ... existing code ...
