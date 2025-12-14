@@ -7,28 +7,99 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { format, subDays } from "date-fns";
 
-const data = [
-  { day: "Mon", stress: 65 },
-  { day: "Tue", stress: 45 },
-  { day: "Wed", stress: 75 },
-  { day: "Thu", stress: 50 },
-  { day: "Fri", stress: 35 },
-  { day: "Sat", stress: 20 },
-  { day: "Sun", stress: 40 },
-];
+interface DashboardChartProps {
+  stressLevel?: number;
+  timelineEvents?: any[];
+}
 
-export default function DashboardChart({ stressLevel }: { stressLevel?: number }) {
-  // Use stressLevel to influence data or display it
-  // For now, we update the last data point's value to reflect current stress if provided
+export default function DashboardChart({ stressLevel, timelineEvents = [] }: DashboardChartProps) {
   const currentStress = stressLevel ?? 50;
 
-  // Create a copy of data to not mutate original
-  const chartData = [...data];
-  if (stressLevel !== undefined) {
-    // Update Sunday (last day) or append? Let's just update the last one for visual effect
-    chartData[6] = { ...chartData[6], stress: currentStress };
+  // Derive historical data from timeline events
+  // This is a simplified reconstruction. In a real app we might store snapshots.
+  // We'll traverse backwards from current stress.
+
+  const daysToShow = 7;
+  const data = [];
+
+  // Initialize with last 7 days keys
+  const today = new Date();
+  for (let i = daysToShow - 1; i >= 0; i--) {
+    const date = subDays(today, i);
+    data.push({
+      date: date,
+      day: format(date, "EEE"), // Mon, Tue...
+      stress: null as number | null, // Placeholder
+    });
   }
+
+  // Set today's stress
+  data[daysToShow - 1].stress = currentStress;
+
+  // Group events by day to calculate backwards
+  // Sort events descending by date
+  const sortedEvents = [...timelineEvents].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  let trackingStress = currentStress;
+
+  // We only carry stress backwards.
+  // Previous Stress = Current Stress - (Change)
+  // E.g. If current is 50, and last event was +5 (Game Loss), then before that event it was 45.
+
+  // NOTE: This logic assumes timelineEvents covers the whole history. If pagination limits it,
+  // we will lose accuracy further back. But for visual approximation it's okay.
+
+  // Map events to days
+  // We need to find the stress value at the *end* of each day.
+
+  let eventIndex = 0;
+
+  // Loop backwards through our chart days (from yesterday back to 7 days ago)
+  for (let i = daysToShow - 2; i >= 0; i--) {
+    const targetDateEnd = new Date(data[i].date);
+    targetDateEnd.setHours(23, 59, 59, 999);
+
+    const targetDateStart = new Date(data[i].date);
+    targetDateStart.setHours(0, 0, 0, 0);
+
+    // Process all events that happened *after* the end of this target day, up to the point we are currently tracking
+    // Actually simpler: iterate events.
+
+    // Let's just find the stress at the end of Day X.
+    // Stress(End of Day X) = Stress(End of Day X+1) - Sum(Changes in Day X+1)
+
+    // Filter events that happened on Day(i+1)
+    const nextDayStart = new Date(data[i + 1].date);
+    nextDayStart.setHours(0, 0, 0, 0);
+    const nextDayEnd = new Date(data[i + 1].date);
+    nextDayEnd.setHours(23, 59, 59, 999);
+
+    const eventsOnNextDay = sortedEvents.filter(e => {
+      const d = new Date(e.createdAt);
+      return d >= nextDayStart && d <= nextDayEnd;
+    });
+
+    const stressChangeOnNextDay = eventsOnNextDay.reduce((sum, e) => sum + (e.stressChange || 0), 0);
+
+    // Previous day's end stress is:
+    // (Stress at end of Next Day) - (Net Change on Next Day)
+    // Wait, if I had 50 today, and I had +5 today. Yesterday ended with 45. Correct.
+    let prevStress = (data[i + 1].stress || 50) - stressChangeOnNextDay;
+
+    // Clamp
+    prevStress = Math.max(0, Math.min(100, prevStress));
+
+    data[i].stress = prevStress;
+  }
+
+  // default fill gaps if any (though logic above should set all)
+  const chartData = data.map(d => ({
+    day: d.day,
+    stress: Math.round(d.stress || 50)
+  }));
+
 
   return (
     <div className="w-full p-6 bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl shadow-sm">
@@ -102,6 +173,7 @@ export default function DashboardChart({ stressLevel }: { stressLevel?: number }
               fillOpacity={1}
               fill="url(#colorStress)"
               strokeWidth={3}
+              animationDuration={1500}
             />
           </AreaChart>
         </ResponsiveContainer>

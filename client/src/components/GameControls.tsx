@@ -21,7 +21,7 @@ const GameControls = ({ onNextLevel, onReset }: GameControlsProps) => {
         variant="outline"
         size="icon"
         className="h-12 w-12 rounded-full bg-secondary shadow-sm border border-border hover:bg-secondary/80"
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/dashboard')}
       >
         <Home className="h-5 w-5" />
       </Button>

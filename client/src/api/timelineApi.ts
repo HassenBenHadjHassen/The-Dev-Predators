@@ -8,4 +8,11 @@ export class TimelineApi extends Api {
             method: "GET",
         });
     }
+
+    static async createEvent(data: { title: string; type: string; description?: string; stressChange?: number }) {
+        return this.request(this.api_url + "/create", {
+            method: "POST",
+            body: JSON.stringify(data),
+        });
+    }
 }

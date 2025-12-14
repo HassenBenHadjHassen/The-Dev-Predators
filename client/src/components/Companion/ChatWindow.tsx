@@ -3,6 +3,7 @@ import { Send, X, Info } from "lucide-react";
 import { Button } from "../ui/button";
 import { AiApi } from "../../api/aiApi";
 import type { ReframeResponse } from "../../api/aiApi";
+import { useCompanion } from "@/context/CompanionContext";
 import {
   Tooltip,
   TooltipContent,
@@ -36,6 +37,7 @@ export default function ChatWindow({
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { triggerRefresh } = useCompanion();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -64,6 +66,8 @@ export default function ChatWindow({
           reasoning: data.reasoning,
         };
         setMessages((prev) => [...prev, aiMessage]);
+        // Trigger dashboard refresh to show new event
+        triggerRefresh();
       } else {
         throw new Error("Invalid response format");
       }
@@ -114,16 +118,14 @@ export default function ChatWindow({
         {messages.map((msg, index) => (
           <div
             key={index}
-            className={`flex ${
-              msg.role === "user" ? "justify-end" : "justify-start"
-            }`}
+            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"
+              }`}
           >
             <div
-              className={`max-w-[80%] p-3 rounded-2xl text-sm relative group ${
-                msg.role === "user"
+              className={`max-w-[80%] p-3 rounded-2xl text-sm relative group ${msg.role === "user"
                   ? "bg-primary text-primary-foreground rounded-tr-none"
                   : "bg-muted text-foreground rounded-tl-none"
-              }`}
+                }`}
             >
               {msg.content}
               {msg.reasoning && (

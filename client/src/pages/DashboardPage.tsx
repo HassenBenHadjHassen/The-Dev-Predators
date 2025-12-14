@@ -11,7 +11,7 @@ import { COMPANIONS } from "../constants/companions";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
-  const { setIsOpen } = useCompanion();
+  const { setIsOpen, refreshKey } = useCompanion();
   const [user, setUser] = useState<any>(null);
   const [timeline, setTimeline] = useState<any[]>([]);
   const [stressLevel, setStressLevel] = useState<number>(50);
@@ -40,7 +40,7 @@ export default function DashboardPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [refreshKey]);
 
   const companion = COMPANIONS.find((c) => c.id === user?.selectedCompanionId);
   const avatarSrc = companion
@@ -140,7 +140,7 @@ export default function DashboardPage() {
                 </p>
               </button>
 
-              <DashboardChart stressLevel={stressLevel} />
+              <DashboardChart stressLevel={stressLevel} timelineEvents={timeline} />
 
               {/* Summary Stats */}
               <div className="grid grid-cols-2 gap-4">

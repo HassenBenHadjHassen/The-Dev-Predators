@@ -10,6 +10,8 @@ interface CompanionContextType {
     setEmotion: (emotion: string | null) => void;
     triggerCheer: () => void;
     triggerCheckIn: () => void;
+    refreshKey: number;
+    triggerRefresh: () => void;
 }
 
 const CompanionContext = createContext<CompanionContextType | undefined>(undefined);
@@ -19,6 +21,8 @@ export const CompanionProvider = ({ children }: { children: ReactNode }) => {
     const [message, setMessage] = useState<string | null>(null);
     const [emotion, setEmotion] = useState<string | null>(null);
 
+    const [refreshKey, setRefreshKey] = useState(0);
+
     const triggerCheer = () => {
         setMessage("Great job! You're doing amazing! 🎉");
         setTimeout(() => setMessage(null), 5000); // Hide after 5 seconds
@@ -27,6 +31,10 @@ export const CompanionProvider = ({ children }: { children: ReactNode }) => {
     const triggerCheckIn = () => {
         setMessage("How are you feeling right now?");
         setTimeout(() => setMessage(null), 8000);
+    };
+
+    const triggerRefresh = () => {
+        setRefreshKey(prev => prev + 1);
     };
 
     return (
@@ -40,6 +48,8 @@ export const CompanionProvider = ({ children }: { children: ReactNode }) => {
                 setEmotion,
                 triggerCheer,
                 triggerCheckIn,
+                refreshKey,
+                triggerRefresh
             }}
         >
             {children}

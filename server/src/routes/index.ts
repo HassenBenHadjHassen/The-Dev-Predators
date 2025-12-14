@@ -17,12 +17,14 @@ import userRoutes from "./userRoutes";
 
 import timelineRoutes from "./timelineRoutes";
 import gameRoutes from "./gameRoutes";
+import dailyLogRoutes from "./dailyLogRoutes";
 
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/check-in", dailyCheckInRoutes);
 router.use("/timeline", timelineRoutes);
 router.use("/game", gameRoutes);
+router.use("/daily-log", dailyLogRoutes);
 
 
 // API info endpoint

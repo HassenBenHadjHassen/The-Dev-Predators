@@ -1,25 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import { Send, BookOpen } from "lucide-react";
-import { CheckInApi } from "@/api/checkInApi";
+import { DailyLogApi } from "@/api/dailyLogApi";
+import { useCompanion } from "@/context/CompanionContext";
 
 export default function DashboardLogs() {
   const [logContent, setLogContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [logs, setLogs] = useState<any[]>([]);
+  const { triggerRefresh } = useCompanion();
+
+  const fetchLogs = async () => {
+    try {
+      const response = await DailyLogApi.getLogs();
+      if (response && response.success) {
+        setLogs(response.data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch logs:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
 
   const handleLog = async () => {
     if (!logContent.trim()) return;
 
     setIsSubmitting(true);
     try {
-      await CheckInApi.createCheckIn({
-        emotionalState: "Daily Log",
-        intensityLevel: 5,
-        situation: [logContent],
-        goal: []
-      });
+      await DailyLogApi.createLog(logContent);
       setLogContent("");
-      // Ideally trigger a refresh of the timeline here, but for now just clear input
+      // Refresh the logs list
+      fetchLogs();
+      // Trigger global refresh for timeline
+      triggerRefresh();
     } catch (error) {
       console.error("Failed to log entry:", error);
     } finally {
@@ -66,26 +82,35 @@ export default function DashboardLogs() {
         </Button>
       </div>
 
-      {/* Recent Logs List (Mini) - This could be dynamic but sticking to static for now as timeline handles history */}
+      {/* Recent Logs List */}
       <div className="mt-8 pt-6 border-t border-border/50">
         <h4 className="text-sm font-medium text-muted-foreground mb-4 uppercase tracking-wider">
           Recent Entries
         </h4>
-        <div className="space-y-3">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className="p-3 rounded-lg bg-background/30 hover:bg-background/50 transition-colors border border-transparent hover:border-border/50 cursor-pointer"
-            >
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-sm font-medium">Anxiety check-in</span>
-                <span className="text-xs text-muted-foreground">2h ago</span>
+        <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+          {logs.length > 0 ? (
+            logs.map((log) => (
+              <div
+                key={log.id}
+                className="p-3 rounded-lg bg-background/30 hover:bg-background/50 transition-colors border border-transparent hover:border-border/50 cursor-pointer"
+              >
+                <div className="flex justify-between items-center mb-1">
+                  <span className="text-sm font-medium">Log Entry</span>
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(log.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground line-clamp-2">
+                  {log.content}
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground line-clamp-1">
-                Feeling a bit better after the breathing exercise...
-              </p>
+            ))
+          ) : (
+            <div className="text-center py-6 text-muted-foreground text-sm">
+              <p>No logs yet.</p>
+              <p className="text-xs mt-1 opacity-70">Share your thoughts to get started.</p>
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

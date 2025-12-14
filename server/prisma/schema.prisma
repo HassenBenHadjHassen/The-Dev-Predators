@@ -24,6 +24,20 @@ model User {
 
   timelineEvents TimelineEvent[]
 
+  dailyLogs DailyLog[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model DailyLog {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+
+  content String
+  mood String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
