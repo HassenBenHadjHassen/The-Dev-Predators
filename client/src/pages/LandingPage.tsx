@@ -1,13 +1,10 @@
-"use client";
-
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Sparkles, Heart, Brain, Shield } from "lucide-react";
 
-interface LandingSectionProps {
-  onGetStarted: () => void;
-}
+export default function LandingSection() {
+  const navigate = useNavigate();
 
-export default function LandingSection({ onGetStarted }: LandingSectionProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
       <div className="max-w-6xl w-full">
@@ -34,7 +31,7 @@ export default function LandingSection({ onGetStarted }: LandingSectionProps) {
             <Button
               size="lg"
               className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
-              onClick={onGetStarted}
+              onClick={() => navigate("/signup")}
             >
               Begin Your Journey
             </Button>
