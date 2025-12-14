@@ -163,3 +163,106 @@ button {
 .animate-pulse-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-gradient-glass backdrop-blur-md bg-opacity-30 border border-white/10 shadow-glass rounded-xl;
+  }
+
+  .tube {
+    @apply relative w-16 h-64 rounded-b-3xl rounded-t-xl overflow-hidden bg-white/10 backdrop-blur-sm shadow-tube border border-white/20;
+  }
+
+  .tube-selected {
+    @apply ring-4 ring-primary ring-opacity-70;
+  }
+
+  .liquid-segment {
+    @apply absolute bottom-0 w-full transition-all duration-300 ease-in-out;
+  }
+
+
+
+  .level-button {
+    @apply w-14 h-14 rounded-lg flex items-center justify-center text-lg font-medium transition-all duration-200 hover:scale-105 active:scale-95;
+  }
+
+  .level-completed {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .level-unlocked {
+    @apply bg-white/10 backdrop-blur-sm shadow-glass-sm border border-white/20 text-foreground;
+  }
+
+  .level-locked {
+    @apply bg-muted/50 text-muted-foreground cursor-not-allowed;
+  }
+
+  .subtle-pattern {
+    @apply bg-pattern-dots bg-[length:20px_20px];
+  }
+
+  .tube-rim {
+    @apply absolute top-0 left-0 right-0 h-4 bg-white/10 rounded-t-xl border-b border-white/5;
+  }
+
+  .tube-shine {
+    @apply absolute top-2 bottom-2 left-1 w-3 bg-white/5 rounded-full;
+  }
+
+  /* Page transition animations */
+  .page-enter {
+    @apply opacity-0 translate-y-4;
+  }
+
+  .page-enter-active {
+    @apply opacity-100 translate-y-0 transition-all duration-300 ease-out;
+  }
+
+  .page-exit {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .page-exit-active {
+    @apply opacity-0 -translate-y-4 transition-all duration-300 ease-in;
+  }
+
+  /* Liquid color classes */
+  .bg-liquid-red {
+    @apply bg-[#E74C3C];
+  }
+
+  .bg-liquid-blue {
+    @apply bg-[#3498DB];
+  }
+
+  .bg-liquid-green {
+    @apply bg-[#2ECC71];
+  }
+
+  .bg-liquid-yellow {
+    @apply bg-[#F1C40F];
+  }
+
+  .bg-liquid-purple {
+    @apply bg-[#9B59B6];
+  }
+
+  .bg-liquid-orange {
+    @apply bg-[#E67E22];
+  }
+
+  .bg-liquid-teal {
+    @apply bg-[#1ABC9C];
+  }
+
+  .bg-liquid-pink {
+    @apply bg-[#FF80AB];
+  }
+}
