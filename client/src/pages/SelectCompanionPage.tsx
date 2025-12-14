@@ -8,6 +8,7 @@ import img3 from "../assets/cute-animal-icon-collection-free-vector__3_-removebg
 import img4 from "../assets/cute-animal-icon-collection-free-vector__4_-removebg-preview.png";
 import img5 from "../assets/cute-animal-icon-collection-free-vector__5_-removebg-preview.png";
 import img6 from "../assets/cute-animal-icon-collection-free-vector-removebg-preview.png";
+import { UserApi } from "@/api/userApi";
 
 const companions = [
   { id: 1, src: img1, alt: "Cute Rabbit" },
@@ -26,6 +27,7 @@ export default function SelectCompanionPage() {
     if (selectedId) {
       // TODO: Save selection to user profile/context
       console.log("Selected companion:", selectedId);
+      UserApi.updateProfile(selectedId, { companionId: selectedId });
       navigate("/check-in"); // Or wherever the next step is
     }
   };
@@ -64,10 +66,9 @@ export default function SelectCompanionPage() {
                 group relative w-full aspect-square max-w-[200px] rounded-3xl p-6 
                 transition-all duration-300 ease-out
                 flex items-center justify-center
-                ${
-                  selectedId === companion.id
-                    ? "bg-primary/10 ring-4 ring-primary shadow-lg scale-105"
-                    : "bg-card hover:bg-card/80 hover:-translate-y-1 hover:shadow-md border border-border"
+                ${selectedId === companion.id
+                  ? "bg-primary/10 ring-4 ring-primary shadow-lg scale-105"
+                  : "bg-card hover:bg-card/80 hover:-translate-y-1 hover:shadow-md border border-border"
                 }
               `}
             >
@@ -76,11 +77,10 @@ export default function SelectCompanionPage() {
                 alt={companion.alt}
                 className={`
                    w-full h-full object-contain transition-transform duration-300
-                   ${
-                     selectedId === companion.id
-                       ? "scale-110"
-                       : "group-hover:scale-110"
-                   }
+                   ${selectedId === companion.id
+                    ? "scale-110"
+                    : "group-hover:scale-110"
+                  }
                 `}
               />
 
@@ -100,10 +100,9 @@ export default function SelectCompanionPage() {
             disabled={!selectedId}
             className={`
               text-lg px-8 py-6 rounded-full shadow-lg transition-all duration-300
-              ${
-                selectedId
-                  ? "hover:scale-105 hover:shadow-xl"
-                  : "opacity-50 cursor-not-allowed"
+              ${selectedId
+                ? "hover:scale-105 hover:shadow-xl"
+                : "opacity-50 cursor-not-allowed"
               }
             `}
           >

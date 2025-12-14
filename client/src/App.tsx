@@ -30,9 +30,7 @@ const App = () => (
               path="/login"
               element={
                 <div id="login-section">
-                  <Login onSwitchToSignup={function (): void {
-                    throw new Error("Function not implemented.");
-                  }} />
+                  <Login />
                 </div>
               }
             />

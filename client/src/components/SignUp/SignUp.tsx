@@ -21,7 +21,7 @@ const SignUp = () => {
 
         try {
             await AuthApi.register({ fullName, email, password });
-            navigate("/login");
+            navigate("/select-companion");
         } catch (err: any) {
             console.error("SignUp failed:", err);
             setError(err.message || "Registration failed. Please try again.");

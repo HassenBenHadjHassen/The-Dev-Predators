@@ -18,7 +18,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       await AuthApi.login({ email, password });
-      navigate("/dashboard");
+      navigate("/select-companion");
     } catch (err: any) {
       console.error("Login failed:", err);
       setError(err.message || "Login failed. Please check your credentials.");
