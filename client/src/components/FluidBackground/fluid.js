@@ -54,32 +54,32 @@ export function runSimulation(canvas) {
     "SIM_RESOLUTION": 128,
     "DYE_RESOLUTION": 1024,
     "CAPTURE_RESOLUTION": 512,
-    "DENSITY_DISSIPATION": 1,
-    "VELOCITY_DISSIPATION": 1,
-    "PRESSURE": 0.25,
+    "DENSITY_DISSIPATION": 0.8, // Slower dissipation for lingering clouds
+    "VELOCITY_DISSIPATION": 0.9, // Smoother movement
+    "PRESSURE": 0.4,
     "PRESSURE_ITERATIONS": 20,
-    "CURL": 0,
-    "SPLAT_RADIUS": 0.15,
-    "SPLAT_FORCE": 6000,
+    "CURL": 5, // More swirls
+    "SPLAT_RADIUS": 0.3, // Larger, softer splats
+    "SPLAT_FORCE": 3000, // Gentler force
     "SHADING": true,
     "COLORFUL": true,
-    "COLOR_UPDATE_SPEED": 10,
+    "COLOR_UPDATE_SPEED": 5, // Slower color changes
     "PAUSED": false,
     "BACK_COLOR": {
-      "r": 255,
-      "g": 255,
-      "b": 255
+      "r": 250, // Matches #FAFAF9 (approx)
+      "g": 250,
+      "b": 249
     },
     "TRANSPARENT": false,
-    "BLOOM": false,
+    "BLOOM": true, // Enable bloom for glow
     "BLOOM_ITERATIONS": 8,
     "BLOOM_RESOLUTION": 256,
-    "BLOOM_INTENSITY": 0.8,
-    "BLOOM_THRESHOLD": 0.6,
+    "BLOOM_INTENSITY": 0.4, // Soft glow
+    "BLOOM_THRESHOLD": 0.5,
     "BLOOM_SOFT_KNEE": 0.7,
-    "SUNRAYS": true,
+    "SUNRAYS": false, // Disable sunrays for less visual noise
     "SUNRAYS_RESOLUTION": 196,
-    "SUNRAYS_WEIGHT": 1.0,
+    "SUNRAYS_WEIGHT": 0.6,
     "RANDOM_COLORS": true,
     "SPLAT_HUE": 0
   };
@@ -1771,18 +1771,25 @@ export function runSimulation(canvas) {
     }
 
     // Updated to allow single colors
+    // Updated to match teal/sage gradient colors
     function generateColor() {
       if (config.RANDOM_COLORS) {
-        let c = HSVtoRGB(Math.random(), 1.0, 1.0);
-        c.r *= 0.15;
-        c.g *= 0.15;
-        c.b *= 0.15;
+        // Teal to sage range: hue 0.48-0.42 (cyan-green)
+        // rgb(147, 183, 190) = hue ~0.517, sat ~0.226, val ~0.745
+        // rgb(124, 154, 146) = hue ~0.456, sat ~0.195, val ~0.604
+        let hue = 0.42 + Math.random() * 0.12; // Teal to sage range
+        let saturation = 0.4 + Math.random() * 0.3; // 40-70% saturation for richer colors
+        let value = 0.7 + Math.random() * 0.3; // 70-100% brightness
+        let c = HSVtoRGB(hue, saturation, value);
+        c.r *= 0.08; // Much lighter intensity
+        c.g *= 0.08;
+        c.b *= 0.08;
         return c;
       } else {
-        let c = HSVtoRGB(config.SPLAT_HUE, 1.0, 1.0);
-        c.r *= 0.15;
-        c.g *= 0.15;
-        c.b *= 0.15;
+        let c = HSVtoRGB(0.48, 0.5, 0.85); // Mid-point teal with more saturation
+        c.r *= 0.08;
+        c.g *= 0.08;
+        c.b *= 0.08;
         return c;
       }
     }

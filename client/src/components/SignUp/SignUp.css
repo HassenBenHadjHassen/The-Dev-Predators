@@ -1,6 +1,6 @@
-/* Login.css */
+/* SignUp.css */
 
-.login-container {
+.signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +21,7 @@
     }
 }
 
-.login-card {
+.signup-card {
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.75);
@@ -46,7 +46,7 @@
     }
 }
 
-.login-title {
+.signup-title {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -54,14 +54,14 @@
     letter-spacing: -0.02em;
 }
 
-.login-subtitle {
+.signup-subtitle {
     color: var(--color-text-muted);
     font-size: 1rem;
     margin-bottom: 2.5rem;
     line-height: 1.6;
 }
 
-.login-form {
+.signup-form {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -79,7 +79,7 @@
     font-weight: 600;
 }
 
-.login-input {
+.signup-input {
     width: 100%;
     padding: 1rem;
     background: rgba(255, 255, 255, 0.8);
@@ -91,19 +91,18 @@
     outline: none;
 }
 
-.login-input:focus {
+.signup-input:focus {
     background: #fff;
     border-color: var(--color-secondary);
     box-shadow: 0 0 0 3px rgba(147, 183, 190, 0.2);
 }
 
-.login-button {
+.signup-button {
     margin-top: 1rem;
     width: 100%;
-    /* Button styles primarily handled by global button rule, but specific overrides here */
 }
 
-.login-footer {
+.signup-footer {
     margin-top: 2.5rem;
     font-size: 0.9rem;
     color: var(--color-text-muted);
@@ -115,6 +114,7 @@
     font-weight: 600;
     margin-left: 0.25rem;
     transition: color 0.2s;
+    cursor: pointer;
 }
 
 .footer-link:hover {

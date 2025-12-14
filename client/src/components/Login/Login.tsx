@@ -2,20 +2,23 @@ import React, { useState } from 'react';
 import FluidBackground from '../FluidBackground/FluidBackground';
 import './Login.css';
 
-const Login: React.FC = () => {
+interface LoginProps {
+    onSwitchToSignup: () => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onSwitchToSignup }) => {
     const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
+
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Handle login logic here
-        console.log('Login attempt:', { username, email });
+        console.log('Login attempt:', { username });
     };
 
     return (
-        <div className="login-container">
-            <FluidBackground />
+        <section className="login-container">
 
 
             <div className="login-card">
@@ -39,18 +42,7 @@ const Login: React.FC = () => {
                         />
                     </div>
 
-                    <div className="input-group">
-                        <label htmlFor="email" className="input-label">Email Address</label>
-                        <input
-                            type="email"
-                            id="email"
-                            className="login-input"
-                            placeholder="name@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
+
 
                     <div className="input-group">
                         <label htmlFor="password" className="input-label">Password</label>
@@ -72,10 +64,10 @@ const Login: React.FC = () => {
 
                 <div className="login-footer">
                     <span>Don't have an account?</span>
-                    <a href="#" className="footer-link">Sign up gently</a>
+                    <a onClick={onSwitchToSignup} className="footer-link" style={{ cursor: 'pointer' }}>Sign up gently</a>
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 
