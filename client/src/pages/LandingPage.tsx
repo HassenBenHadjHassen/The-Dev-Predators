@@ -35,13 +35,7 @@ export default function LandingSection() {
             >
               Begin Your Journey
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-lg px-8 py-6 rounded-full border-2 hover:bg-muted/50 bg-transparent"
-            >
-              Learn More
-            </Button>
+            
           </div>
         </div>
 
