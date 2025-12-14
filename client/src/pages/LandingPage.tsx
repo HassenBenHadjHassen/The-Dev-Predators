@@ -13,15 +13,19 @@ const LandingPage = () => {
                 <h1 style={{ fontSize: '4rem', marginBottom: '1rem' }}>Welcome to the Future</h1>
                 <p style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Experience the fluid motion.</p>
                 <button style={{
-                    padding: '1rem 2rem',
-                    fontSize: '1.2rem',
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    border: '1px solid rgba(255, 255, 255, 0.2)',
-                    color: 'white',
-                    borderRadius: '8px',
+                    padding: '1.2rem 2.4rem',        
+                    fontSize: '1.6rem',               
+                    fontWeight: 700,                   
+                    letterSpacing: '0.03em',
+                    background: '#0B5FFF',           
+                    color: '#FFFFFF',
                     cursor: 'pointer',
+                    boxShadow: isActive ? '0 3px 10px rgba(0,0,0,0.25)' : '0 6px 18px rgba(0,0,0,0.35)', // better visual separation
                     backdropFilter: 'blur(10px)',
-                    transition: 'background 0.3s'
+                    transform: isActive ? 'scale(0.98)' : isHover ? 'translateY(-2px) scale(1.03)' : 'none',
+                    filter: isHover ? 'brightness(1.15) saturate(1.1)' : 'none',
+                    willChange: 'transform, filter',
+                    transition: 'transform 0.05s ease-out, filter 0.3s ease'
                 }}>
                     Get Started
                 </button>
