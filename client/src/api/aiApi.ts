@@ -1,7 +1,9 @@
 import Api from "./api";
 
 export class AiApi extends Api {
-  static api_url = Api.api_url + "/ai";
+  static get api_url() {
+    return Api.api_url + "/ai";
+  }
 
   // Get user profile
   static async reframe(data: { thought: string }) {

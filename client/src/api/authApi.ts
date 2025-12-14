@@ -7,7 +7,9 @@ interface User {
 }
 
 export class AuthApi extends Api {
-  static api_url = Api.api_url + "/auth";
+  static get api_url() {
+    return Api.api_url + "/auth";
+  }
 
   static async register(user: User) {
     // Api.request() already returns parsed JSON data, not a Response object

@@ -1,8 +1,9 @@
 import Api from "./api";
 
 export class UserApi extends Api {
-  static api_url = Api.api_url + "/users";
-
+  static get api_url() {
+    return Api.api_url + "/users";
+  }
   // Get user profile
   static async getUser() {
     return this.request(`${Api.api_url}/auth/me`, {
