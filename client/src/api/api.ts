@@ -19,16 +19,14 @@ export default class Api {
       endpoint = Api.API_BASE_URL + endpoint;
     }
 
-    console.log("[UserApi] Making request to:", endpoint);
-    console.log("[UserApi] Api Url:", this.api_url);
     const tokenStr = localStorage.getItem("token");
     let token: string | null = null;
+
     if (tokenStr) {
       try {
-        const tokenObj = JSON.parse(tokenStr);
-        token = tokenObj.token;
-      } catch (e) {
-        console.error("[UserApi] Failed to parse token:", e);
+        token = JSON.parse(tokenStr).token;
+      } catch {
+        token = null;
       }
     }
 
@@ -36,12 +34,15 @@ export default class Api {
       ...(options.headers || {}),
     };
 
-    // Only set Content-Type for non-FormData requests
-    // FormData needs the browser to set Content-Type automatically with the boundary
-    if (!(options.body instanceof FormData)) {
+    const hasBody = options.body !== undefined;
+    const isFormData = options.body instanceof FormData;
+
+    // Only set Content-Type when needed
+    if (hasBody && !isFormData) {
       headers["Content-Type"] = "application/json";
     }
 
+    // Authorization will ALWAYS trigger preflight. This is unavoidable.
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -50,23 +51,17 @@ export default class Api {
       ...options,
       headers,
       mode: "cors",
-      credentials: "include",
     };
 
-    // Wrap the fetch call for retry logic
     return this.retryRequest(async () => {
       const response = await fetch(endpoint, config);
 
-      // Handle authentication errors (don't retry these)
       if (response.status === 401 || response.status === 403) {
-        console.error("[UserApi] Authentication failed - logging out");
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         window.location.href = "/login";
 
-        const error = new Error(
-          "Session expired. Please login again."
-        ) as AuthError;
+        const error = new Error("Session expired") as AuthError;
         error.isAuthError = true;
         throw error;
       }
