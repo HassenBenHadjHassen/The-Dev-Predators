@@ -3,13 +3,14 @@ import FluidBackground from '../FluidBackground/FluidBackground';
 import './Login.css';
 
 const Login: React.FC = () => {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         // Handle login logic here
-        console.log('Login attempt:', { email });
+        console.log('Login attempt:', { username, email });
     };
 
     return (
@@ -25,6 +26,19 @@ const Login: React.FC = () => {
                 </p>
 
                 <form className="login-form" onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <label htmlFor="username" className="input-label">Username</label>
+                        <input
+                            type="text"
+                            id="username"
+                            className="login-input"
+                            placeholder="Enter your username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+
                     <div className="input-group">
                         <label htmlFor="email" className="input-label">Email Address</label>
                         <input
