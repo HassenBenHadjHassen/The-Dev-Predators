@@ -56,13 +56,14 @@ export const corsConfig = cors({
     }
 
     // Parse CORS_ORIGIN - can be a single origin or comma-separated list
-    const allowedOrigins = config.CORS_ORIGIN.split(",").map((o: string) =>
-      o.trim()
-    );
+    const allowedOrigins = config.CORS_ORIGIN.split(",")
+      .map((o: string) => o.trim())
+      .filter((o: string) => o !== "*"); // Remove "*" since credentials: true requires specific origins
 
     // Check if the origin is in the allowed list
-    if (allowedOrigins.includes(origin) || allowedOrigins.includes("*")) {
-      callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      // Return the actual origin value (not true) to set the header correctly
+      callback(null, origin);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
