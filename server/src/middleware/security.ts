@@ -48,14 +48,7 @@ export const helmetConfig = helmet({
 });
 
 // CORS configuration
-export const corsConfig = cors({
-  origin:
-    config.CORS_ORIGIN || "https://the-dev-predators.hassenbenhadjhassen.com",
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  exposedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 200, // Some legacy browsers (IE11, various SmartTVs) choke on 204
-});
+export const corsConfig = cors();
 
 // Request sanitization middleware
 export const sanitizeRequest = (
