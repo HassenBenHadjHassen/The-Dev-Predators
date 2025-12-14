@@ -4,7 +4,6 @@ import compression from "compression";
 import morgan from "morgan";
 import {
   helmetConfig,
-  corsConfig,
   sanitizeRequest,
   securityHeaders,
 } from "./middleware/security";
@@ -19,9 +18,7 @@ app.set("trust proxy", 1);
 
 // Security middleware
 app.use(helmetConfig);
-app.use(corsConfig);
-// VERY IMPORTANT
-app.options("*", corsConfig);
+// CORS disabled
 app.use(securityHeaders);
 app.use(sanitizeRequest);
 
