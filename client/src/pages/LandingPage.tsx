@@ -3,19 +3,19 @@ import { Button } from "../components/ui/button";
 import { Sparkles, Heart, Brain, Shield } from "lucide-react";
 
 export default function LandingSection() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  return (
-    <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
-      <div className="max-w-6xl w-full">
-        {/* Hero Content */}
-        <div className="text-center space-y-8 mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">
-              Your wellness journey starts here
-            </span>
-          </div>
+    return (
+        <section className="relative min-h-screen flex items-center justify-center px-6 py-20">
+            <div className="max-w-6xl w-full">
+                {/* Hero Content */}
+                <div className="text-center space-y-8 mb-20">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
+                        <Sparkles className="w-4 h-4 text-primary" />
+                        <span className="text-sm font-medium text-primary">
+                            Your wellness journey starts here
+                        </span>
+                    </div>
 
                     <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
                         A thoughtfully crafted space where mental wellness meets delightful
@@ -26,18 +26,12 @@ export default function LandingSection() {
                         <Button
                             size="lg"
                             className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
-            <Button
-              size="lg"
-              className="text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105"
-              onClick={() => navigate("/signup")}
-            >
-              Begin Your Journey
-            </Button>
-            
-          </div>
-        </div>
+                            onClick={() => navigate("/signup")}
+                        >
+                            Begin Your Journey
+                        </Button>
+                    </div>
+                </div>
 
                 {/* Feature Cards */}
                 <div className="grid md:grid-cols-3 gap-6 mt-20">
