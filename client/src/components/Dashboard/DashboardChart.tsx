@@ -14,7 +14,10 @@ interface DashboardChartProps {
   timelineEvents?: any[];
 }
 
-export default function DashboardChart({ stressLevel, timelineEvents = [] }: DashboardChartProps) {
+export default function DashboardChart({
+  stressLevel,
+  timelineEvents = [],
+}: DashboardChartProps) {
   const currentStress = stressLevel ?? 50;
 
   // Derive historical data from timeline events
@@ -40,7 +43,9 @@ export default function DashboardChart({ stressLevel, timelineEvents = [] }: Das
 
   // Group events by day to calculate backwards
   // Sort events descending by date
-  const sortedEvents = [...timelineEvents].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const sortedEvents = [...timelineEvents].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 
   // We only carry stress backwards.
   // Previous Stress = Current Stress - (Change)
@@ -72,12 +77,15 @@ export default function DashboardChart({ stressLevel, timelineEvents = [] }: Das
     const nextDayEnd = new Date(data[i + 1].date);
     nextDayEnd.setHours(23, 59, 59, 999);
 
-    const eventsOnNextDay = sortedEvents.filter(e => {
+    const eventsOnNextDay = sortedEvents.filter((e) => {
       const d = new Date(e.createdAt);
       return d >= nextDayStart && d <= nextDayEnd;
     });
 
-    const stressChangeOnNextDay = eventsOnNextDay.reduce((sum, e) => sum + (e.stressChange || 0), 0);
+    const stressChangeOnNextDay = eventsOnNextDay.reduce(
+      (sum, e) => sum + (e.stressChange || 0),
+      0
+    );
 
     // Previous day's end stress is:
     // (Stress at end of Next Day) - (Net Change on Next Day)
@@ -91,11 +99,10 @@ export default function DashboardChart({ stressLevel, timelineEvents = [] }: Das
   }
 
   // default fill gaps if any (though logic above should set all)
-  const chartData = data.map(d => ({
+  const chartData = data.map((d) => ({
     day: d.day,
-    stress: Math.round(d.stress || 50)
+    stress: Math.round(d.stress || 50),
   }));
-
 
   return (
     <div className="w-full p-6 bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl shadow-sm">
@@ -109,7 +116,9 @@ export default function DashboardChart({ stressLevel, timelineEvents = [] }: Das
           </p>
         </div>
         <div className="text-right">
-          <div className="text-3xl font-bold text-primary">{Math.round(currentStress)}</div>
+          <div className="text-3xl font-bold text-primary">
+            {Math.round(currentStress)}
+          </div>
           <div className="text-xs text-muted-foreground uppercase">Current</div>
         </div>
       </div>
