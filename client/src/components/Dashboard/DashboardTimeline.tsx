@@ -41,7 +41,21 @@ const MOCK_EVENTS = [
   },
 ];
 
-export default function DashboardTimeline() {
+interface DashboardTimelineProps {
+  events?: any[];
+}
+
+export default function DashboardTimeline({ events = [] }: DashboardTimelineProps) {
+  // Use passed events or fallback to mock if empty (optional, maybe better to show empty state)
+  const displayEvents = events.length > 0 ? events.map(e => ({
+    id: e.id,
+    date: new Date(e.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    title: e.title,
+    description: e.description,
+    mood: e.stressChange < 0 ? "good" : (e.stressChange > 0 ? "bad" : "neutral"),
+    icon: e.type.includes("WIN") ? Sparkles : (e.type.includes("LOSS") ? Frown : (e.type.includes("CHECK_IN") ? Smile : Meh))
+  })) : MOCK_EVENTS;
+
   return (
     <div className="relative space-y-8 p-4 md:p-8">
       <div className="text-center mb-12">
@@ -58,8 +72,10 @@ export default function DashboardTimeline() {
         <div className="absolute left-4 md:left-1/2 top-4 bottom-4 w-0.5 bg-gradient-to-b from-primary/10 via-primary/40 to-primary/10 -translate-x-1/2 md:translate-x-0" />
 
         <div className="space-y-12">
-          {MOCK_EVENTS.map((event, index) => {
+          {displayEvents.map((event, index) => {
             const isLeft = index % 2 === 0;
+            const Icon = event.icon;
+
             return (
               <div
                 key={event.id}
@@ -89,7 +105,9 @@ export default function DashboardTimeline() {
 
                 {/* Center Node */}
                 <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 rounded-full bg-background border-4 border-primary/20 z-10 shadow-[0_0_0_4px_var(--color-background)]">
-                  <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse-glow" />
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Icon className="w-4 h-4 text-primary" />
+                  </div>
                 </div>
 
                 {/* Empty Space for Grid Layout */}

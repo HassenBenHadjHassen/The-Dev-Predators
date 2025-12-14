@@ -5,6 +5,7 @@ import DashboardLogs from "../components/Dashboard/DashboardLogs";
 import DashboardTimeline from "../components/Dashboard/DashboardTimeline";
 import { Sparkles, Gamepad2 } from "lucide-react";
 import { UserApi } from "@/api/userApi";
+import { TimelineApi } from "@/api/timelineApi";
 import { useCompanion } from "@/context/CompanionContext";
 import { COMPANIONS } from "../constants/companions";
 
@@ -12,23 +13,33 @@ export default function DashboardPage() {
   const navigate = useNavigate();
   const { setIsOpen } = useCompanion();
   const [user, setUser] = useState<any>(null);
+  const [timeline, setTimeline] = useState<any[]>([]);
+  const [stressLevel, setStressLevel] = useState<number>(50);
 
   useEffect(() => {
     setIsOpen(true);
   }, [setIsOpen]);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const response = await UserApi.getUser();
-        if (response.success) {
-          setUser(response.data);
+        const [userRes, timelineRes] = await Promise.all([
+          UserApi.getUser(),
+          TimelineApi.getTimeline()
+        ]);
+
+        if (userRes.success) {
+          setUser(userRes.data);
+        }
+        if (timelineRes.success) {
+          setTimeline(timelineRes.data.timeline);
+          setStressLevel(timelineRes.data.stressLevel);
         }
       } catch (error) {
-        console.error("Failed to fetch user:", error);
+        console.error("Failed to fetch dashboard data:", error);
       }
     };
-    fetchUser();
+    fetchData();
   }, []);
 
   const companion = COMPANIONS.find((c) => c.id === user?.selectedCompanionId);
@@ -102,7 +113,7 @@ export default function DashboardPage() {
 
           {/* Center Column - Timeline */}
           <div className="lg:col-span-6 order-1 lg:order-2">
-            <DashboardTimeline />
+            <DashboardTimeline events={timeline} />
           </div>
 
           {/* Right Column - Stats (Sticky) */}
@@ -129,7 +140,7 @@ export default function DashboardPage() {
                 </p>
               </button>
 
-              <DashboardChart />
+              <DashboardChart stressLevel={stressLevel} />
 
               {/* Summary Stats */}
               <div className="grid grid-cols-2 gap-4">

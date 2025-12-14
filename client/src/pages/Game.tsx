@@ -5,6 +5,7 @@ import { useGame } from "@/context/GameContext";
 import { useCompanion } from "@/context/CompanionContext";
 import Tube from "@/components/Tube";
 import GameControls from "@/components/GameControls";
+import { GameApi } from "@/api/gameApi";
 
 const Game = () => {
   const { levelId } = useParams<{ levelId: string }>();
@@ -56,6 +57,7 @@ const Game = () => {
 
     // Only allow progression if the current level is completed
     if (completedLevels.includes(gameState.levelId) && unlockedLevels.includes(nextLevelId)) {
+      GameApi.recordEvent({ type: "WIN", level: gameState.levelId });
       navigate(`/game/${nextLevelId}`);
     }
   };
@@ -73,7 +75,12 @@ const Game = () => {
         ))}
       </div>
 
-      <GameControls onNextLevel={handleNextLevel} />
+      <GameControls
+        onNextLevel={handleNextLevel}
+        onReset={() => {
+          GameApi.recordEvent({ type: "LOSS", level: gameState.levelId });
+        }}
+      />
     </div>
   );
 };

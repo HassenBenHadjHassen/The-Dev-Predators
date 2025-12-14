@@ -17,6 +17,13 @@ export default function LandingPage() {
                         </span>
                     </div>
 
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight mb-8 text-balance">
+                        Welcome to your{" "}
+                        <span className="bg-gradient-to-r from-violet-600 via-primary to-indigo-600 bg-clip-text text-transparent">
+                            bright side
+                        </span>
+                    </h1>
+
                     <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto text-balance leading-relaxed">
                         A thoughtfully crafted space where mental wellness meets delightful
                         design. Start your journey to a calmer, more centered you.

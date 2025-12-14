@@ -18,22 +18,39 @@ const data = [
   { day: "Sun", stress: 40 },
 ];
 
-export default function DashboardChart() {
+export default function DashboardChart({ stressLevel }: { stressLevel?: number }) {
+  // Use stressLevel to influence data or display it
+  // For now, we update the last data point's value to reflect current stress if provided
+  const currentStress = stressLevel ?? 50;
+
+  // Create a copy of data to not mutate original
+  const chartData = [...data];
+  if (stressLevel !== undefined) {
+    // Update Sunday (last day) or append? Let's just update the last one for visual effect
+    chartData[6] = { ...chartData[6], stress: currentStress };
+  }
+
   return (
     <div className="w-full p-6 bg-card/50 backdrop-blur-sm border border-border/50 rounded-3xl shadow-sm">
-      <div className="mb-6">
-        <h3 className="font-serif text-2xl font-semibold mb-2">
-          Stress Levels
-        </h3>
-        <p className="text-muted-foreground text-sm">
-          Weekly overview of your stress patterns
-        </p>
+      <div className="mb-6 flex justify-between items-start">
+        <div>
+          <h3 className="font-serif text-2xl font-semibold mb-2">
+            Stress Levels
+          </h3>
+          <p className="text-muted-foreground text-sm">
+            Weekly overview of your stress patterns
+          </p>
+        </div>
+        <div className="text-right">
+          <div className="text-3xl font-bold text-primary">{Math.round(currentStress)}</div>
+          <div className="text-xs text-muted-foreground uppercase">Current</div>
+        </div>
       </div>
 
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            data={data}
+            data={chartData}
             margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <defs>

@@ -23,7 +23,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     selectTube,
     resetLevel,
     undoMove,
-    loadLevel
+    loadLevel,
+    difficultyModifier
   } = useGameState();
 
   return (
@@ -34,7 +35,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       selectTube,
       resetLevel,
       undoMove,
-      loadLevel
+      loadLevel,
+      difficultyModifier
     }}>
       {children}
     </GameContext.Provider>

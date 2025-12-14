@@ -3,6 +3,7 @@ import { BaseController } from "./BaseController";
 import { DailyCheckInService } from "../services/DailyCheckInService";
 import { UserService } from "../services/UserService";
 import { AuthRequest } from "../middleware/auth";
+import { TimelineService } from "../services/TimelineService";
 
 export class DailyCheckInController extends BaseController {
     private dailyCheckInService: DailyCheckInService;
@@ -42,6 +43,17 @@ export class DailyCheckInController extends BaseController {
             };
 
             const result = await this.dailyCheckInService.create(checkInData);
+
+            // Create timeline event
+            const timelineService = new TimelineService();
+            await timelineService.createEvent({
+                userId: authReq.user.userId,
+                type: "CHECK_IN",
+                title: "Daily Check-in",
+                description: `Recorded mood: ${otherData.emotionalState}`,
+                stressChange: -2, // Checking in reduces stress slightly
+            });
+
             this.sendServiceResponse(res, result, 201);
         });
     };

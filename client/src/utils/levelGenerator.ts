@@ -52,12 +52,24 @@ const getDifficultyParams = (difficulty: Difficulty) => {
  * @param difficulty - The difficulty level ('easy', 'medium', 'hard')
  * @param seed - Optional random seed (simplified usage here)
  */
-export const generateLevelByDifficulty = (difficulty: Difficulty): Tube[] => {
+export const generateLevelByDifficulty = (difficulty: Difficulty, modifier: number = 0): Tube[] => {
     const params = getDifficultyParams(difficulty);
     const tubeHeight = 4;
 
+    // Adjust params based on modifier
+    // Positive modifier = Harder (more colors)
+    // Negative modifier = Easier (fewer colors)
+    let adjustedMaxKeywords = params.maxColors + modifier;
+    let adjustedMinKeywords = params.minColors + Math.floor(modifier / 2);
+
+    // Keep within reasonable bounds
+    if (adjustedMinKeywords < 3) adjustedMinKeywords = 3;
+    if (adjustedMaxKeywords > LIQUID_COLORS.length) adjustedMaxKeywords = LIQUID_COLORS.length;
+    // Ensure max >= min
+    if (adjustedMaxKeywords < adjustedMinKeywords) adjustedMaxKeywords = adjustedMinKeywords;
+
     // Randomize colors count within range
-    const numColors = Math.floor(Math.random() * (params.maxColors - params.minColors + 1)) + params.minColors;
+    const numColors = Math.floor(Math.random() * (adjustedMaxKeywords - adjustedMinKeywords + 1)) + adjustedMinKeywords;
     const activeColors = LIQUID_COLORS.slice(0, Math.min(numColors, LIQUID_COLORS.length));
 
     const numTubes = numColors + params.emptyTubes;
@@ -102,18 +114,88 @@ export const generateLevelByDifficulty = (difficulty: Difficulty): Tube[] => {
     return tubes;
 };
 
-/**
- * Generates a level based on the level number (Backward Compatibility)
- */
-export const generateLevel = (levelNumber: number): Tube[] => {
-    // Simple mapping of level number to difficulty for progressive play
-    let difficulty: Difficulty = 'easy';
-    if (levelNumber > 20) difficulty = 'medium';
-    if (levelNumber > 50) difficulty = 'hard';
+export const generateLevel = (levelNumber: number, difficultyModifier: number = 0): Tube[] => {
+    // Logic from plan: baseTubes = 3 + floor(level/2)
+    // Adjusted by difficulty modifier
+    const baseTubes = 3 + Math.floor(levelNumber / 2);
+    const targetTubes = Math.max(3, baseTubes + Math.floor(difficultyModifier));
 
-    // Use the new generator logic but slightly customized to match original progression if needed
-    // For now, we delegate to the difficulty generator to enable the new logic
-    return generateLevelByDifficulty(difficulty);
+    // Determine complexity for the generator
+    // We map 'tubes' to 'difficulty' settings expected by the helper or call it directly
+    // Since generateLevelByDifficulty uses buckets, we might need to adapt it 
+    // OR just use the 'targetTubes' to drive the colors.
+
+    // Let's refactor to use targetTubes directly.
+    // Assuming 2 empty tubes standard, 1 for hard.
+    const emptyTubes = targetTubes > 8 ? 1 : 2;
+    const numColors = Math.max(2, targetTubes - emptyTubes);
+
+    // Map strict colors count to difficulty params for the existing generator
+    // The existing generator calculates numColors based on min/max.
+    // We want EXACT control or close to it.
+
+    // Let's use a new helper or modify the existing one to accept specific tube count?
+    // The existing 'generateLevelByDifficulty' does `numColors = rand(min, max)`.
+    // We can just set min=max=numColors.
+
+    // Calculate 'difficulty' enum just for satisfy signature if needed, 
+    // but mostly we want to pass specific constraints.
+    // Since generateLevelByDifficulty logic is:
+    // adjustedMax = params.max + mod
+
+    // Instead of fighting the existing function, let's create a direct generator 
+    // or call it with a "custom" difficulty object if we could, 
+    // but here we are replacing 'generateLevel'.
+
+    // Let's call generateLevelByDifficulty but with a "virtual" modifier that aligns with our target?
+    // No, that's complex.
+    // Let's just implement the logic here directly or create a specific helper.
+    // For minimal code churn, I will adapt generateLevelByDifficulty to respect an override 
+    // OR just write the generation logic here since it shares 'generateLevelByDifficulty' structure.
+
+    return generateLevelByParams(numColors, emptyTubes);
+};
+
+// Helper to generate specific level
+const generateLevelByParams = (numColors: number, emptyTubes: number): Tube[] => {
+    const tubeHeight = 4;
+    const activeColors = LIQUID_COLORS.slice(0, Math.min(numColors, LIQUID_COLORS.length));
+    const numTubes = numColors + emptyTubes;
+
+    // Generate segments
+    const segments: { id: string; color: LiquidColor }[] = [];
+    for (let i = 0; i < numColors; i++) {
+        const color = activeColors[i];
+        for (let j = 0; j < tubeHeight; j++) {
+            segments.push({ id: generateId(), color });
+        }
+    }
+
+    const shuffledSegments = shuffleArray(segments);
+    const tubes: Tube[] = [];
+
+    // Fill tubes
+    for (let i = 0; i < numColors; i++) {
+        const tubeSegments = shuffledSegments.slice(i * tubeHeight, (i + 1) * tubeHeight);
+        tubes.push({
+            id: `tube-${i}`,
+            capacity: tubeHeight,
+            segments: tubeSegments,
+            selected: false
+        });
+    }
+
+    // Empty tubes
+    for (let i = numColors; i < numTubes; i++) {
+        tubes.push({
+            id: `tube-${i}`,
+            capacity: tubeHeight,
+            segments: [],
+            selected: false
+        });
+    }
+
+    return tubes;
 };
 
 /**

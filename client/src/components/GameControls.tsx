@@ -6,9 +6,10 @@ import { RefreshCcw, Undo2, Home, SkipForward } from "lucide-react";
 
 interface GameControlsProps {
   onNextLevel?: () => void;
+  onReset?: () => void;
 }
 
-const GameControls = ({ onNextLevel }: GameControlsProps) => {
+const GameControls = ({ onNextLevel, onReset }: GameControlsProps) => {
   const { resetLevel, undoMove, gameState, completedLevels } = useGame();
   const navigate = useNavigate();
 
@@ -38,7 +39,10 @@ const GameControls = ({ onNextLevel }: GameControlsProps) => {
         variant="outline"
         size="icon"
         className="h-12 w-12 rounded-full bg-secondary shadow-sm border border-border hover:bg-secondary/80"
-        onClick={resetLevel}
+        onClick={() => {
+          resetLevel();
+          onReset?.();
+        }}
       >
         <RefreshCcw className="h-5 w-5" />
       </Button>

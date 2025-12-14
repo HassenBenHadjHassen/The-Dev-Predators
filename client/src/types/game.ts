@@ -1,12 +1,12 @@
 
-export type LiquidColor = 
-  | "liquid-red" 
-  | "liquid-blue" 
-  | "liquid-green" 
-  | "liquid-yellow" 
-  | "liquid-purple" 
-  | "liquid-orange" 
-  | "liquid-teal" 
+export type LiquidColor =
+  | "liquid-red"
+  | "liquid-blue"
+  | "liquid-green"
+  | "liquid-yellow"
+  | "liquid-purple"
+  | "liquid-orange"
+  | "liquid-teal"
   | "liquid-pink";
 
 export interface LiquidSegment {
@@ -37,4 +37,5 @@ export interface GameContextType {
   resetLevel: () => void;
   undoMove: () => void;
   loadLevel: (levelId: number) => void;
+  difficultyModifier: number;
 }
