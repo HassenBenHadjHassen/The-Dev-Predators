@@ -34,12 +34,15 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                     A gentle space designed for your wellbeing. Take a moment to breathe, reflect, and begin your journey toward clarity.
                 </p>
 
-                <button
-                    className="cta-button"
-                    onClick={() => onNavigate('login')}
-                >
-                    Begin Your Journey
-                </button>
+                <div className="button-group" style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+                    <button
+                        className="cta-button"
+                        onClick={() => onNavigate('login')}
+                    >
+                        Begin Your Journey
+                    </button>
+                </div>
+
 
                 <p className="quote">
                     "In the midst of movement and chaos, keep stillness inside of you."
