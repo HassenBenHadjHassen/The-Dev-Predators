@@ -13,7 +13,32 @@ importers:
     dependencies:
       '@radix-ui/react-slot':
         specifier: ^1.2.4
+<<<<<<< Updated upstream
         version: 1.2.4(@types/react@19.2.7)(react@19.2.3)
+=======
+        version: 1.2.4(@types/react@18.3.27)(react@18.3.1)
+      '@radix-ui/react-switch':
+        specifier: ^1.1.0
+        version: 1.2.6(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-tabs':
+        specifier: ^1.1.0
+        version: 1.1.13(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-toast':
+        specifier: ^1.2.1
+        version: 1.2.15(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-toggle':
+        specifier: ^1.1.0
+        version: 1.1.10(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-toggle-group':
+        specifier: ^1.1.0
+        version: 1.1.11(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@radix-ui/react-tooltip':
+        specifier: ^1.1.4
+        version: 1.2.8(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@tailwindcss/postcss':
+        specifier: ^4.1.18
+        version: 4.1.18
+>>>>>>> Stashed changes
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.1.18(rolldown-vite@7.2.5(@types/node@24.10.3)(jiti@2.6.1))
@@ -36,11 +61,28 @@ importers:
         specifier: ^7.10.1
         version: 7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       tailwind-merge:
+<<<<<<< Updated upstream
         specifier: ^3.4.0
         version: 3.4.0
       tailwindcss:
         specifier: ^4.1.18
         version: 4.1.18
+=======
+        specifier: ^2.5.2
+        version: 2.6.0
+      tailwindcss:
+        specifier: ^4.1.18
+        version: 4.1.18
+      tailwindcss-animate:
+        specifier: ^1.0.7
+        version: 1.0.7(tailwindcss@4.1.18)
+      vaul:
+        specifier: ^0.9.3
+        version: 0.9.9(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+>>>>>>> Stashed changes
     devDependencies:
       '@eslint/js':
         specifier: ^9.39.1
@@ -83,6 +125,10 @@ importers:
         version: rolldown-vite@7.2.5(@types/node@24.10.3)(jiti@2.6.1)
 
 packages:
+
+  '@alloc/quick-lru@5.2.0':
+    resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
+    engines: {node: '>=10'}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -506,6 +552,9 @@ packages:
   '@tailwindcss/oxide@4.1.18':
     resolution: {integrity: sha512-EgCR5tTS5bUSKQgzeMClT6iCY3ToqE1y+ZB0AKldj809QXk1Y+3jB0upOYZrn9aGIzPtUsP7sX4QQ4XtjBB95A==}
     engines: {node: '>= 10'}
+
+  '@tailwindcss/postcss@4.1.18':
+    resolution: {integrity: sha512-Ce0GFnzAOuPyfV5SxjXGn0CubwGcuDB0zcdaPuCSzAa/2vII24JTkH+I6jcbXLb1ctjZMZZI6OjDaLPJQL1S0g==}
 
   '@tailwindcss/vite@4.1.18':
     resolution: {integrity: sha512-jVA+/UpKL1vRLg6Hkao5jldawNmRo7mQYrZtNHMIVpLfLhDml5nMRUo/8MwoX2vNXvnaXNNMedrMfMugAVX1nA==}
@@ -1235,6 +1284,8 @@ packages:
 
 snapshots:
 
+  '@alloc/quick-lru@5.2.0': {}
+
   '@babel/code-frame@7.27.1':
     dependencies:
       '@babel/helper-validator-identifier': 7.28.5
@@ -1611,6 +1662,14 @@ snapshots:
       '@tailwindcss/oxide-wasm32-wasi': 4.1.18
       '@tailwindcss/oxide-win32-arm64-msvc': 4.1.18
       '@tailwindcss/oxide-win32-x64-msvc': 4.1.18
+
+  '@tailwindcss/postcss@4.1.18':
+    dependencies:
+      '@alloc/quick-lru': 5.2.0
+      '@tailwindcss/node': 4.1.18
+      '@tailwindcss/oxide': 4.1.18
+      postcss: 8.5.6
+      tailwindcss: 4.1.18
 
   '@tailwindcss/vite@4.1.18(rolldown-vite@7.2.5(@types/node@24.10.3)(jiti@2.6.1))':
     dependencies:
@@ -2212,7 +2271,15 @@ snapshots:
     dependencies:
       has-flag: 4.0.0
 
+<<<<<<< Updated upstream
   tailwind-merge@3.4.0: {}
+=======
+  tailwind-merge@2.6.0: {}
+
+  tailwindcss-animate@1.0.7(tailwindcss@4.1.18):
+    dependencies:
+      tailwindcss: 4.1.18
+>>>>>>> Stashed changes
 
   tailwindcss@4.1.18: {}
 
