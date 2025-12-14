@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, X, Info } from "lucide-react";
 import { Button } from "../ui/button";
-import { AiApi, ReframeResponse } from "../../api/aiApi";
+import { AiApi } from "../../api/aiApi";
+import type { ReframeResponse } from "../../api/aiApi";
 import {
   Tooltip,
   TooltipContent,

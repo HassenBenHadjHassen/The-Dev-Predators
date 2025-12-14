@@ -19,9 +19,12 @@ const Login = () => {
     try {
       const response = await AuthApi.login({ email, password });
       if (response.success && response.data) {
-        localStorage.setItem("token", JSON.stringify({ token: response.data.token }));
+        localStorage.setItem(
+          "token",
+          JSON.stringify({ token: response.data.token })
+        );
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        navigate("/select-companion");
+        navigate("/dashboard");
       } else {
         throw new Error(response.message || "Login failed");
       }

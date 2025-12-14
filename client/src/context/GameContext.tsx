@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext } from "react";
 import { useGameState } from "@/hooks/useGameState";
-import { GameContextType } from "@/types/game";
+import type { GameContextType } from "@/types/game";
 
 export * from "@/types/game";
 

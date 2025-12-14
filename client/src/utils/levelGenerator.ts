@@ -1,4 +1,4 @@
-import { Tube, LiquidColor } from "@/types/game";
+import type { Tube, LiquidColor } from "@/types/game";
 
 // Available liquid colors
 const LIQUID_COLORS: LiquidColor[] = [

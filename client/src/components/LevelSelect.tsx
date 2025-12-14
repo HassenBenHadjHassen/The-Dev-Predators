@@ -5,8 +5,6 @@ import { useGame } from "@/context/GameContext";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 
-const LEVELS_PER_PAGE = 24;
-
 const LevelSelect = () => {
   const { unlockedLevels, completedLevels, loadLevel } = useGame();
   const navigate = useNavigate();

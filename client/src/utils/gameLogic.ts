@@ -1,4 +1,4 @@
-import { Tube, LiquidSegment } from "@/types/game";
+import type { Tube } from "@/types/game";
 
 /**
  * Checks if a level is complete

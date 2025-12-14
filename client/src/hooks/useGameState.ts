@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { generateLevel } from "@/utils/levelGenerator";
 import { checkLevelComplete, pourLiquid } from "@/utils/gameLogic";
 import { toast } from "@/components/ui/use-toast";
-import { GameState, Tube } from "@/types/game";
+import type { GameState } from "@/types/game";
 
 export const useGameState = () => {
   const [gameState, setGameState] = useState<GameState>({

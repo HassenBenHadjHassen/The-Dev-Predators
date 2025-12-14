@@ -1,7 +1,7 @@
 
 import { memo } from "react";
 import { useGame } from "@/context/GameContext";
-import { Tube as TubeType } from "@/types/game";
+import type { Tube as TubeType } from "@/types/game";
 import LiquidSegment from "./LiquidSegment";
 
 interface TubeProps {

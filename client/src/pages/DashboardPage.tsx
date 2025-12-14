@@ -35,7 +35,6 @@ export default function DashboardPage() {
   const avatarSrc = companion
     ? companion.src
     : "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
-  const companionName = companion?.alt || "Companion";
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">

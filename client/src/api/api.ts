@@ -1,10 +1,19 @@
+interface RequestOptions extends RequestInit {
+  body?: string | FormData;
+  headers?: Record<string, string>;
+}
+
+interface AuthError extends Error {
+  isAuthError: true;
+}
+
 export default class Api {
   static API_BASE_URL = "http://localhost:3000";
   static get api_url() {
     return this.API_BASE_URL + "/api";
   }
 
-  static async request(endpoint, options = {}) {
+  static async request(endpoint: string, options: RequestOptions = {}) {
     if (!endpoint.startsWith("http")) {
       endpoint = Api.API_BASE_URL + endpoint;
     }
@@ -12,7 +21,7 @@ export default class Api {
     console.log("[UserApi] Making request to:", endpoint);
     console.log("[UserApi] Api Url:", this.api_url);
     const tokenStr = localStorage.getItem("token");
-    let token = null;
+    let token: string | null = null;
     if (tokenStr) {
       try {
         const tokenObj = JSON.parse(tokenStr);
@@ -22,8 +31,8 @@ export default class Api {
       }
     }
 
-    const headers = {
-      ...options.headers,
+    const headers: Record<string, string> = {
+      ...(options.headers || {}),
     };
 
     // Only set Content-Type for non-FormData requests
@@ -36,7 +45,7 @@ export default class Api {
       headers["Authorization"] = `Bearer ${token}`;
     }
 
-    const config = {
+    const config: RequestInit = {
       ...options,
       headers,
       mode: "cors",
@@ -54,7 +63,7 @@ export default class Api {
         localStorage.removeItem("user");
         window.location.href = "/login";
 
-        const error = new Error("Session expired. Please login again.");
+        const error = new Error("Session expired. Please login again.") as AuthError;
         error.isAuthError = true;
         throw error;
       }
@@ -69,17 +78,21 @@ export default class Api {
     });
   }
 
-  static async retryRequest(fn, maxRetries = 3, initialDelay = 1000) {
-    let lastError;
+  static async retryRequest<T>(
+    fn: () => Promise<T>,
+    maxRetries = 3,
+    initialDelay = 1000
+  ): Promise<T> {
+    let lastError: unknown;
 
     for (let attempt = 0; attempt < maxRetries; attempt++) {
       try {
         return await fn();
-      } catch (error) {
+      } catch (error: unknown) {
         lastError = error;
 
         // Don't retry on authentication errors - these are permanent
-        if (error.isAuthError) {
+        if (error && typeof error === "object" && "isAuthError" in error && (error as AuthError).isAuthError) {
           throw error;
         }
 
@@ -90,11 +103,12 @@ export default class Api {
 
         // Calculate delay with exponential backoff
         const delayMs = initialDelay * Math.pow(2, attempt);
+        const errorMessage = error instanceof Error ? error.message : String(error);
         console.warn(
           `[UserApi] Request failed (attempt ${
             attempt + 1
           }/${maxRetries}), retrying in ${delayMs}ms...`,
-          error.message
+          errorMessage
         );
         await this.delay(delayMs);
       }
@@ -103,7 +117,7 @@ export default class Api {
     throw lastError;
   }
 
-  static async delay(ms) {
+  static async delay(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
