@@ -117,27 +117,3 @@ const sanitizeObject = (obj: any): void => {
     }
   }
 };
-
-// Security headers middleware
-export const securityHeaders = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  // Prevent clickjacking
-  res.setHeader("X-Frame-Options", "DENY");
-
-  // Prevent MIME type sniffing
-  res.setHeader("X-Content-Type-Options", "nosniff");
-
-  // Enable XSS protection
-  res.setHeader("X-XSS-Protection", "1; mode=block");
-
-  // Referrer policy
-  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-
-  // Remove X-Powered-By header
-  res.removeHeader("X-Powered-By");
-
-  next();
-};

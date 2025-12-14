@@ -5,7 +5,6 @@ import morgan from "morgan";
 import {
   helmetConfig,
   sanitizeRequest,
-  securityHeaders,
   corsConfig,
 } from "./middleware/security";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
@@ -21,7 +20,6 @@ app.set("trust proxy", 1);
 app.use(corsConfig);
 // Security middleware (after CORS to avoid header conflicts)
 app.use(helmetConfig);
-app.use(securityHeaders);
 app.use(sanitizeRequest);
 
 // Compression middleware
