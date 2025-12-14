@@ -1,9 +1,57 @@
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import DashboardChart from "../components/Dashboard/DashboardChart";
 import DashboardLogs from "../components/Dashboard/DashboardLogs";
 import DashboardTimeline from "../components/Dashboard/DashboardTimeline";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Gamepad2 } from "lucide-react";
+import { UserApi } from "@/api/userApi";
+import { useCompanion } from "@/context/CompanionContext";
+
+import img1 from "../assets/cute-animal-icon-collection-free-vector__1_-removebg-preview.png";
+import img2 from "../assets/cute-animal-icon-collection-free-vector__2_-removebg-preview.png";
+import img3 from "../assets/cute-animal-icon-collection-free-vector__3_-removebg-preview.png";
+import img4 from "../assets/cute-animal-icon-collection-free-vector__4_-removebg-preview.png";
+import img5 from "../assets/cute-animal-icon-collection-free-vector__5_-removebg-preview.png";
+import img6 from "../assets/cute-animal-icon-collection-free-vector-removebg-preview.png";
+
+const companions = [
+  { id: 1, src: img1, alt: "Bunny" },
+  { id: 2, src: img2, alt: "Bear" },
+  { id: 3, src: img3, alt: "Cat" },
+  { id: 4, src: img4, alt: "Dog" },
+  { id: 5, src: img5, alt: "Panda" },
+  { id: 6, src: img6, alt: "Fox" },
+];
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
+  const { setIsOpen } = useCompanion();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, [setIsOpen]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await UserApi.getUser();
+        if (response.success) {
+          setUser(response.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user:", error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const companion = companions.find((c) => c.id === user?.selectedCompanionId);
+  const avatarSrc = companion
+    ? companion.src
+    : "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix";
+  const companionName = companion?.alt || "Companion";
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/20">
       {/* Header */}
@@ -18,11 +66,11 @@ export default function DashboardPage() {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <div className="w-8 h-8 rounded-full bg-secondary overflow-hidden border border-border">
+            <div className="w-10 h-10 rounded-full bg-secondary overflow-hidden border border-border p-1">
               <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                src={avatarSrc}
                 alt="Avatar"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
           </div>
@@ -31,14 +79,31 @@ export default function DashboardPage() {
 
       <main className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
-        <div className="mb-10 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold mb-3 text-balance">
-            Welcome back, <span className="text-primary">Alex</span>
-          </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl text-balance">
-            Your safe space to track, reflect, and grow. Here's how you've been
-            doing lately.
-          </p>
+        <div className="mb-10 text-center md:text-left flex flex-col md:flex-row items-center gap-6">
+          <div className="relative">
+            <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center p-2 border-2 border-primary/20">
+              <img
+                src={avatarSrc}
+                alt="Companion"
+                className="w-full h-full object-contain drop-shadow-md transition-transform hover:scale-110 duration-300"
+              />
+            </div>
+            {companion && (
+              <div className="absolute -bottom-2 -right-2 bg-background border border-border rounded-full px-3 py-1 text-xs font-semibold shadow-sm">
+                Companion
+              </div>
+            )}
+          </div>
+
+          <div>
+            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-3 text-balance">
+              Welcome back, <span className="text-primary">{user?.fullName || "Friend"}</span>
+            </h1>
+            <p className="text-muted-foreground text-lg max-w-2xl text-balance">
+              Your safe space to track, reflect, and grow. Here's how you've been
+              doing lately.
+            </p>
+          </div>
         </div>
 
         {/* Dashboard Grid */}
@@ -68,6 +133,27 @@ export default function DashboardPage() {
           {/* Right Column - Stats (Sticky) */}
           <div className="lg:col-span-3 order-3">
             <div className="sticky top-24 space-y-6">
+              {/* Play Game Card */}
+              <button
+                onClick={() => navigate("/play")}
+                className="w-full text-left p-6 rounded-3xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 cursor-pointer hover:scale-[1.02] active:scale-95 transition-all shadow-sm hover:shadow-md group"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-3 bg-indigo-500/20 text-indigo-600 rounded-2xl group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                    <Gamepad2 className="w-6 h-6" />
+                  </div>
+                  <span className="text-[10px] font-bold bg-background/80 backdrop-blur text-foreground px-2 py-1 rounded-full border border-border">
+                    RELAX
+                  </span>
+                </div>
+                <h3 className="font-serif font-bold text-xl mb-1 group-hover:text-indigo-700 transition-colors">
+                  Color Therapy
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Unwind with a calming puzzle.
+                </p>
+              </button>
+
               <DashboardChart />
 
               {/* Summary Stats */}

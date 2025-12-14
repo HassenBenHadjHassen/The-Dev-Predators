@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useGame } from "@/context/GameContext";
+import { useCompanion } from "@/context/CompanionContext";
 import Tube from "@/components/Tube";
 import GameControls from "@/components/GameControls";
 
 const Game = () => {
   const { levelId } = useParams<{ levelId: string }>();
   const { gameState, loadLevel, unlockedLevels, completedLevels } = useGame();
+  const { triggerCheer, triggerCheckIn } = useCompanion();
   const navigate = useNavigate();
   const [isLevelLoaded, setIsLevelLoaded] = useState(false);
 
@@ -32,6 +34,22 @@ const Game = () => {
   useEffect(() => {
     setIsLevelLoaded(false);
   }, [levelId]);
+
+  // Trigger cheer when level is completed
+  useEffect(() => {
+    if (completedLevels.includes(gameState.levelId)) {
+      triggerCheer();
+    }
+  }, [completedLevels, gameState.levelId, triggerCheer]);
+
+  // Periodic check-in every 3 minutes
+  useEffect(() => {
+    const interval = setInterval(() => {
+      triggerCheckIn();
+    }, 180000);
+    return () => clearInterval(interval);
+  }, [triggerCheckIn]);
+
 
   const handleNextLevel = () => {
     const nextLevelId = gameState.levelId + 1;

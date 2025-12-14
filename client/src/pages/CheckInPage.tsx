@@ -45,7 +45,7 @@ export default function CheckInPage() {
 
   const handleSubmit = () => {
     CheckInApi.createCheckIn(formData);
-    navigate("/chat"); // Navigate to chat after check-in
+    navigate("/dashboard"); // Navigate to dashboard after check-in
   };
 
   const isFormValid =
