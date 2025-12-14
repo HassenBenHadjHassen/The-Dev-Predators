@@ -15,7 +15,9 @@ export class UserService extends BaseService<User> {
     this.userRepository = new UserRepository();
   }
 
-  async register(data: any): Promise<ServiceResponse<User>> {
+  async register(
+    data: any
+  ): Promise<ServiceResponse<{ user: Partial<User>; token: string }>> {
     const validationErrors = this.validateRequiredFields(data, [
       "email",
       "password",
@@ -40,10 +42,16 @@ export class UserService extends BaseService<User> {
       password: hashedPassword,
     });
 
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, role: "user" },
+      config.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
     // Don't return password
     const { password, ...userWithoutPassword } = user;
     return this.createSuccessResponse(
-      userWithoutPassword as User,
+      { user: userWithoutPassword, token },
       "User registered successfully"
     );
   }
@@ -86,7 +94,19 @@ export class UserService extends BaseService<User> {
   // BaseService implementation
   async create(data: Partial<User>): Promise<ServiceResponse<User>> {
     // This probably shouldn't be used directly for users due to password hashing, prefer register
-    return this.register(data);
+    const result = await this.register(data);
+    if (!result.success || !result.data) {
+      return {
+        success: false,
+        error: result.error,
+        statusCode: result.statusCode,
+        validationErrors: result.validationErrors,
+      };
+    }
+    return this.createSuccessResponse(
+      result.data.user as User,
+      "User created successfully"
+    );
   }
 
   async findById(id: string): Promise<ServiceResponse<User>> {

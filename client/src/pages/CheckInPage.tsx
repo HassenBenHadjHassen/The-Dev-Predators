@@ -12,6 +12,7 @@ import {
   Zap,
   Target,
 } from "lucide-react";
+import { CheckInApi } from "@/api/checkInApi";
 
 const intensityLevels = [1, 2, 3, 4, 5];
 const situations = [
@@ -43,8 +44,7 @@ export default function CheckInPage() {
   };
 
   const handleSubmit = () => {
-    // TODO: Submit data to backend or context
-    console.log("Check-in data:", formData);
+    CheckInApi.createCheckIn(formData);
     navigate("/chat"); // Navigate to chat after check-in
   };
 
@@ -117,10 +117,9 @@ export default function CheckInPage() {
                   onClick={() => handleIntensityChange(level)}
                   className={`
                     flex-1 aspect-square rounded-2xl flex items-center justify-center text-lg font-medium transition-all duration-300
-                    ${
-                      formData.intensity === level
-                        ? "bg-primary text-primary-foreground shadow-lg scale-110"
-                        : "bg-background/50 hover:bg-primary/20 hover:scale-105 border border-border"
+                    ${formData.intensity === level
+                      ? "bg-primary text-primary-foreground shadow-lg scale-110"
+                      : "bg-background/50 hover:bg-primary/20 hover:scale-105 border border-border"
                     }
                   `}
                 >
@@ -148,10 +147,9 @@ export default function CheckInPage() {
                   }
                   className={`
                     flex flex-col items-center justify-center p-4 gap-2 rounded-2xl border transition-all duration-200
-                    ${
-                      formData.situation === sit.id
-                        ? "bg-primary/5 border-primary text-primary ring-1 ring-primary"
-                        : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:bg-primary/5"
+                    ${formData.situation === sit.id
+                      ? "bg-primary/5 border-primary text-primary ring-1 ring-primary"
+                      : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:bg-primary/5"
                     }
                   `}
                 >
@@ -174,19 +172,17 @@ export default function CheckInPage() {
                   onClick={() => setFormData({ ...formData, goal: g.id })}
                   className={`
                      flex items-center gap-3 p-4 rounded-2xl border transition-all duration-200
-                     ${
-                       formData.goal === g.id
-                         ? "bg-primary/5 border-primary text-primary ring-1 ring-primary"
-                         : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:bg-primary/5"
-                     }
+                     ${formData.goal === g.id
+                      ? "bg-primary/5 border-primary text-primary ring-1 ring-primary"
+                      : "bg-background/50 border-border text-muted-foreground hover:border-primary/50 hover:bg-primary/5"
+                    }
                    `}
                 >
                   <div
-                    className={`p-2 rounded-xl ${
-                      formData.goal === g.id
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-muted"
-                    }`}
+                    className={`p-2 rounded-xl ${formData.goal === g.id
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted"
+                      }`}
                   >
                     <g.icon className="w-4 h-4" />
                   </div>
@@ -201,10 +197,9 @@ export default function CheckInPage() {
           <Button
             size="lg"
             className={`w-full text-lg py-6 rounded-2xl shadow-lg transition-all
-              ${
-                isFormValid
-                  ? "hover:scale-[1.02] hover:shadow-xl"
-                  : "opacity-50 cursor-not-allowed"
+              ${isFormValid
+                ? "hover:scale-[1.02] hover:shadow-xl"
+                : "opacity-50 cursor-not-allowed"
               }
             `}
             onClick={handleSubmit}

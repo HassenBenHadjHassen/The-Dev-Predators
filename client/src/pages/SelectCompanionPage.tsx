@@ -27,7 +27,7 @@ export default function SelectCompanionPage() {
     if (selectedId) {
       // TODO: Save selection to user profile/context
       console.log("Selected companion:", selectedId);
-      UserApi.updateProfile(selectedId, { companionId: selectedId });
+      UserApi.updateProfile({ selectedCompanionId: selectedId });
       navigate("/check-in"); // Or wherever the next step is
     }
   };

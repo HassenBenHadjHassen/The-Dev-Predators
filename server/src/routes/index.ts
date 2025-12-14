@@ -12,9 +12,12 @@ router.use("/ai", aiRoutes);
 
 // Auth Routes
 import authRoutes from "./authRoutes";
-import dailyCheckInRoutes from "./dailyCheckInRoutes"; // Added import
+import dailyCheckInRoutes from "./dailyCheckInRoutes";
+import userRoutes from "./userRoutes";
+
 router.use("/auth", authRoutes);
-router.use("/daily-check-in", dailyCheckInRoutes); // Added route
+router.use("/users", userRoutes);
+router.use("/check-in", dailyCheckInRoutes);
 
 
 // API info endpoint

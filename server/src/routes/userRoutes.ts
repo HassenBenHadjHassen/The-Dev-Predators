@@ -5,7 +5,7 @@ import { authenticateToken } from "../middleware/auth";
 const router: Router = Router();
 const userController = new UserController();
 
-// Public routes
-router.put("/update", userController.update);
+// Protected routes
+router.put("/update", authenticateToken, userController.update);
 
 export default router;

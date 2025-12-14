@@ -17,8 +17,14 @@ const Login = () => {
     setError("");
     setIsLoading(true);
     try {
-      await AuthApi.login({ email, password });
-      navigate("/select-companion");
+      const response = await AuthApi.login({ email, password });
+      if (response.success && response.data) {
+        localStorage.setItem("token", JSON.stringify({ token: response.data.token }));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        navigate("/select-companion");
+      } else {
+        throw new Error(response.message || "Login failed");
+      }
     } catch (err: any) {
       console.error("Login failed:", err);
       setError(err.message || "Login failed. Please check your credentials.");

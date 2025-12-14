@@ -90,7 +90,12 @@ export class UserController extends BaseController {
     next: NextFunction
   ): Promise<void> => {
     this.handleRequest(req, res, next, async () => {
-      const result = await this.userService.update(req.params.id, req.body);
+      const authReq = req as AuthRequest;
+      if (!authReq.user) {
+        this.sendError(res, "Not authenticated", 401);
+        return;
+      }
+      const result = await this.userService.update(authReq.user.userId, req.body);
       this.sendServiceResponse(res, result);
     });
   };

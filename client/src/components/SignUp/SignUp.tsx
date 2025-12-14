@@ -20,8 +20,14 @@ const SignUp = () => {
         console.log("SignUp attempt:", { fullName, email, password });
 
         try {
-            await AuthApi.register({ fullName, email, password });
-            navigate("/select-companion");
+            const response = await AuthApi.register({ fullName, email, password });
+            if (response.success && response.data) {
+                localStorage.setItem("token", JSON.stringify({ token: response.data.token }));
+                localStorage.setItem("user", JSON.stringify(response.data.user));
+                navigate("/select-companion");
+            } else {
+                throw new Error(response.message || "Registration failed");
+            }
         } catch (err: any) {
             console.error("SignUp failed:", err);
             setError(err.message || "Registration failed. Please try again.");
