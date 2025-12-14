@@ -6,11 +6,11 @@ import {
   helmetConfig,
   sanitizeRequest,
   securityHeaders,
+  corsConfig,
 } from "./middleware/security";
 import { errorHandler, notFoundHandler } from "./middleware/errorHandler";
 import { config } from "./config/environment";
 import routes from "./routes";
-import cors from "cors";
 
 const app: Express = express();
 
@@ -18,7 +18,7 @@ const app: Express = express();
 app.set("trust proxy", 1);
 
 // CORS configuration - must be before other middleware to handle preflight requests
-app.use(cors());
+app.use(corsConfig);
 // Security middleware (after CORS to avoid header conflicts)
 app.use(helmetConfig);
 app.use(securityHeaders);
