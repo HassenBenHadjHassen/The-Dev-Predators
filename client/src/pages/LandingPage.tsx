@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Sparkles, Heart, Brain, Shield } from "lucide-react";
+import HeroImage from "../assets/LDR_LLL1_0.png";
 
 export default function LandingPage() {
     const navigate = useNavigate();
